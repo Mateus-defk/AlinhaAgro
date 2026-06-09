@@ -78,3 +78,7 @@ ehthumbs.db
 *.bak
 *.orig
 *.rej
+
+# ===== DOCUMENTAÇÃO LOCAL (não sobe) =====
+docs/fluxo-*.md
+docs/internal/
