@@ -13,6 +13,9 @@ const _data = {
   irrigacao:   [],
   pragas:      [],
   maoDeObra:   [],
+  variedades:  [],
+  produtos:    [],
+  estimativas: [],
 };
 
 export const Store = {
@@ -24,6 +27,9 @@ export const Store = {
   get irrigacao()   { return _data.irrigacao; },
   get pragas()      { return _data.pragas; },
   get maoDeObra()   { return _data.maoDeObra; },
+  get variedades()  { return _data.variedades; },
+  get produtos()    { return _data.produtos; },
+  get estimativas() { return _data.estimativas; },
 
   /* ── Carregamento inicial (chamado após login/restaurarSessao) */
   async load() {
@@ -152,6 +158,56 @@ export const Store = {
     _data.maoDeObra = _data.maoDeObra.filter(m => m.id !== id);
   },
 
+  /* ── Variedades ─────────────────────────────────────────── */
+  async carregarVariedades() {
+    _data.variedades = (await api.get('/variedades')) ?? [];
+  },
+  async criarVariedade(payload) {
+    const nova = await api.post('/variedades', payload);
+    _data.variedades.push(nova);
+    _data.variedades.sort((a, b) => a.nome.localeCompare(b.nome));
+    return nova;
+  },
+  async deletarVariedade(id) {
+    await api.delete(`/variedades/${id}`);
+    _data.variedades = _data.variedades.filter(v => v.id !== id);
+  },
+
+  /* ── Produtos ────────────────────────────────────────────── */
+  async carregarProdutos() {
+    _data.produtos = (await api.get('/produtos')) ?? [];
+  },
+  async criarProduto(payload) {
+    const novo = await api.post('/produtos', payload);
+    _data.produtos.push(novo);
+    _data.produtos.sort((a, b) => a.nome.localeCompare(b.nome));
+    return novo;
+  },
+  async deletarProduto(id) {
+    await api.delete(`/produtos/${id}`);
+    _data.produtos = _data.produtos.filter(p => p.id !== id);
+  },
+
+  /* ── Estimativas de Colheita ─────────────────────────────── */
+  async carregarEstimativas() {
+    _data.estimativas = (await api.get('/estimativas')) ?? [];
+  },
+  async criarEstimativa(payload) {
+    const nova = await api.post('/estimativas', payload);
+    _data.estimativas.unshift(nova);
+    return nova;
+  },
+  async atualizarEstimativa(id, payload) {
+    const atualizada = await api.put(`/estimativas/${id}`, payload);
+    const idx = _data.estimativas.findIndex(e => e.id === id);
+    if (idx >= 0) _data.estimativas[idx] = atualizada;
+    return atualizada;
+  },
+  async deletarEstimativa(id) {
+    await api.delete(`/estimativas/${id}`);
+    _data.estimativas = _data.estimativas.filter(e => e.id !== id);
+  },
+
   /* ── Utilitários ────────────────────────────────────────── */
   areaById(id) {
     return _data.areas.find(a => a.id === id) ?? null;
@@ -168,5 +224,8 @@ export const Store = {
     _data.irrigacao   = [];
     _data.pragas      = [];
     _data.maoDeObra   = [];
+    _data.variedades  = [];
+    _data.produtos    = [];
+    _data.estimativas = [];
   },
 };

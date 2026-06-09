@@ -1,28 +1,20 @@
 /**
  * Módulo: Cadastros
- * - Variedades e Produtos: localStorage (sem endpoint no backend)
+ * - Variedades e Produtos: integrados com /api/variedades e /api/produtos
  * - Mão de Obra: integrado com /api/mao-de-obra
  */
 
-import { Store }   from '../core/store.js';
-import { Storage } from '../core/storage.js';
-import { router }  from '../core/router.js';
+import { Store }  from '../core/store.js';
+import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
-import { gerarId, dataFmt, moeda } from '../utils/formatters.js';
+import { dataFmt, moeda } from '../utils/formatters.js';
 
 router.register('variedades', _init);
-
-const CHAVES = {
-  variedades: 'ag_variedades',
-  produtos:   'ag_produtos',
-};
 
 let _abaAtiva = 'variedades';
 
 async function _init() {
-  if (_abaAtiva === 'maodeobra') {
-    await _carregarMaoDeObra();
-  }
+  await _carregarAba(_abaAtiva);
   renderVariedades();
 }
 
@@ -30,15 +22,17 @@ export async function mudarCadTab(aba) {
   _abaAtiva = aba;
   document.querySelectorAll('.cad-tab').forEach(t => t.classList.remove('ativo'));
   document.getElementById(`ctab-${aba}`)?.classList.add('ativo');
-  if (aba === 'maodeobra') await _carregarMaoDeObra();
+  await _carregarAba(aba);
   renderVariedades();
 }
 
-async function _carregarMaoDeObra() {
+async function _carregarAba(aba) {
   try {
-    await Store.carregarMaoDeObra();
+    if (aba === 'variedades') await Store.carregarVariedades();
+    else if (aba === 'produtos')   await Store.carregarProdutos();
+    else if (aba === 'maodeobra')  await Store.carregarMaoDeObra();
   } catch {
-    toastErr('Erro ao carregar mão de obra.');
+    toastErr(`Erro ao carregar ${aba}.`);
   }
 }
 
@@ -48,10 +42,10 @@ export function renderVariedades() {
   else if (_abaAtiva === 'maodeobra') _renderMaoDeObra();
 }
 
-/* ── Variedades (localStorage) ─────────────────────────── */
+/* ── Variedades (API) ──────────────────────────────────────── */
 
 function _renderVariedades() {
-  const itens = Storage.get(CHAVES.variedades);
+  const itens = Store.variedades;
   const el    = document.getElementById('lista-variedades');
   if (!el) return;
 
@@ -78,19 +72,19 @@ function _renderVariedades() {
             </div>
             <div class="var-card-nome">${v.nome}</div>
             <div class="var-card-meta">
-              <span>⚖️ ${v.peso ?? '—'} kg</span>
-              <span>📅 ${v.ciclo ?? '—'} dias</span>
-              <span>🗓 Col.: ${v.colheita ?? '—'}</span>
+              <span>⚖️ ${v.pesoMedioKg ?? '—'} kg</span>
+              <span>📅 ${v.cicloDias ?? '—'} dias</span>
+              <span>🗓 Col.: ${v.mesColheita ?? '—'}</span>
             </div>
             ${v.obs ? `<div class="var-card-obs">${v.obs}</div>` : ''}
           </div>`).join('')}
         </div>`}`;
 }
 
-/* ── Produtos (localStorage) ───────────────────────────── */
+/* ── Produtos (API) ────────────────────────────────────────── */
 
 function _renderProdutos() {
-  const itens = Storage.get(CHAVES.produtos);
+  const itens = Store.produtos;
   const el    = document.getElementById('lista-variedades');
   if (!el) return;
 
@@ -129,7 +123,7 @@ function _renderProdutos() {
         </div>`}`;
 }
 
-/* ── Mão de Obra (API) ─────────────────────────────────── */
+/* ── Mão de Obra (API) ─────────────────────────────────────── */
 
 function _renderMaoDeObra() {
   const itens = Store.maoDeObra;
@@ -178,52 +172,52 @@ function _renderMaoDeObra() {
         </table></div>`}`;
 }
 
-/* ── Salvar ────────────────────────────────────────────── */
+/* ── Salvar ────────────────────────────────────────────────── */
 
-export function salvarCadastro(chaveLogica) {
+export async function salvarCadastro(chaveLogica) {
   if (chaveLogica === 'variedades') {
-    const dados = {
-      nome:     _val('v-nome'),
-      fruta:    _val('v-fruta') || 'Manga',
-      peso:     _val('v-peso') || null,
-      ciclo:    _val('v-ciclo') || null,
-      colheita: _val('v-colheita') || null,
-      obs:      _val('v-obs') || null,
-    };
-    if (!dados.nome) { toastErr('Informe o nome da variedade.'); return; }
-    const itens = Storage.get(CHAVES.variedades);
-    itens.push({ id: gerarId(), ...dados });
-    Storage.set(CHAVES.variedades, itens);
-    toastOk('Variedade salva!');
-    renderVariedades();
+    const nome = _val('v-nome');
+    if (!nome) { toastErr('Informe o nome da variedade.'); return; }
+    try {
+      await Store.criarVariedade({
+        nome,
+        fruta:        _val('v-fruta') || 'Manga',
+        pesoMedioKg:  _num('v-peso')  || null,
+        cicloDias:    _int('v-ciclo') || null,
+        mesColheita:  _val('v-colheita') || null,
+        obs:          _val('v-obs') || null,
+      });
+      toastOk('Variedade salva!');
+      renderVariedades();
+    } catch (e) { toastErr(e.message ?? 'Erro ao salvar.'); }
     return;
   }
 
   if (chaveLogica === 'produtos') {
-    const dados = {
-      nome:           _val('prod-nome'),
-      tipo:           _val('prod-tipo') || 'organico',
-      unidade:        _val('prod-unidade') || 'kg',
-      principioAtivo: _val('prod-ativo') || null,
-      obs:            _val('prod-obs') || null,
-    };
-    if (!dados.nome) { toastErr('Informe o nome do produto.'); return; }
-    const itens = Storage.get(CHAVES.produtos);
-    itens.push({ id: gerarId(), ...dados });
-    Storage.set(CHAVES.produtos, itens);
-    toastOk('Produto salvo!');
-    renderVariedades();
+    const nome = _val('prod-nome');
+    if (!nome) { toastErr('Informe o nome do produto.'); return; }
+    try {
+      await Store.criarProduto({
+        nome,
+        tipo:           _val('prod-tipo') || 'organico',
+        unidade:        _val('prod-unidade') || 'kg',
+        principioAtivo: _val('prod-ativo') || null,
+        obs:            _val('prod-obs') || null,
+      });
+      toastOk('Produto salvo!');
+      renderVariedades();
+    } catch (e) { toastErr(e.message ?? 'Erro ao salvar.'); }
     return;
   }
 }
 
 export async function salvarMaoDeObra() {
-  const areaId           = _val('mo-area');
-  const descricao        = _val('mo-desc');
-  const tipo             = _val('mo-tipo') || 'diarista';
+  const areaId            = _val('mo-area');
+  const descricao         = _val('mo-desc');
+  const tipo              = _val('mo-tipo') || 'diarista';
   const quantidadePessoas = parseInt(_val('mo-pessoas') || 1);
-  const valorTotal       = parseFloat(_val('mo-valor') || 0);
-  const data             = _val('mo-data');
+  const valorTotal        = parseFloat(_val('mo-valor') || 0);
+  const data              = _val('mo-data');
 
   if (!descricao)       { toastErr('Informe a descrição.'); return; }
   if (!(valorTotal > 0)) { toastErr('Valor deve ser maior que zero.'); return; }
@@ -245,16 +239,18 @@ export async function salvarMaoDeObra() {
   }
 }
 
-export function deletarCadastro(id, chaveLogica) {
-  const itens = Storage.get(CHAVES[chaveLogica]).filter(i => i.id !== id);
-  Storage.set(CHAVES[chaveLogica], itens);
-  renderVariedades();
-  toastOk('Removido.');
-}
-
 function _val(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
+function _num(id) { const v = parseFloat(_val(id)); return isNaN(v) ? null : v; }
+function _int(id) { const v = parseInt(_val(id)); return isNaN(v) ? null : v; }
 
-window._deletarVar = deletarCadastro;
+window._deletarVar = async (id, tipo) => {
+  try {
+    if (tipo === 'variedades') await Store.deletarVariedade(id);
+    else                       await Store.deletarProduto(id);
+    renderVariedades();
+    toastOk('Removido.');
+  } catch (e) { toastErr(e.message ?? 'Erro ao remover.'); }
+};
 
 window._deletarMaoDeObra = async (id) => {
   try {

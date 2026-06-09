@@ -1,21 +1,22 @@
 /**
  * Módulo: Estimativa de Colheita & Lucro
- * Estimativas são locais (localStorage) — sem backend para este módulo ainda.
+ * Integrado com /api/estimativas.
  */
 
-import { State }   from '../core/state.js';
-import { Store }   from '../core/store.js';
-import { Storage } from '../core/storage.js';
-import { router }  from '../core/router.js';
+import { Store }  from '../core/store.js';
+import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
-import { moeda, num, pct, gerarId } from '../utils/formatters.js';
+import { moeda, num, pct } from '../utils/formatters.js';
 
-router.register('colheita', renderColheita);
+router.register('colheita', _initColheita);
 
-const CHAVE_ESTS = 'ag_ests';
-
-export function renderColheita() {
+async function _initColheita() {
   _popularAreas();
+  try {
+    await Store.carregarEstimativas();
+  } catch {
+    toastErr('Erro ao carregar estimativas.');
+  }
   _renderLista();
 }
 
@@ -52,34 +53,35 @@ export function calcEst() {
   ].join('');
 }
 
-export function salvarEst() {
+export async function salvarEst() {
   const areaId = _val('ce-area');
   if (!areaId) { toastErr('Selecione uma área.'); return; }
 
-  const area = Store.areaById(areaId);
-  const est  = {
-    id:      gerarId(),
+  const payload = {
     areaId,
-    areaNome: area?.nome ?? areaId,
     kgEst:   parseFloat(_val('ce-kg-est')  || 0),
-    kgReal:  parseFloat(_val('ce-kg-real') || 0),
+    kgReal:  parseFloat(_val('ce-kg-real') || 0) || null,
     preco:   parseFloat(_val('ce-preco')   || 0),
-    descPct: parseFloat(_val('ce-desc')    || 0),
-    custoC:  parseFloat(_val('ce-custoC')  || 0),
-    data:    new Date().toISOString(),
+    descPct: parseFloat(_val('ce-desc')    || 0) || 0,
+    custoC:  parseFloat(_val('ce-custoC')  || 0) || 0,
   };
 
-  const ests = Storage.get(CHAVE_ESTS);
-  const idx  = ests.findIndex(e => e.areaId === est.areaId);
-  if (idx >= 0) ests[idx] = est; else ests.push(est);
-  Storage.set(CHAVE_ESTS, ests);
-
-  toastOk('Estimativa salva!');
-  _renderLista();
+  try {
+    const existente = Store.estimativas.find(e => e.areaId === areaId);
+    if (existente) {
+      await Store.atualizarEstimativa(existente.id, payload);
+    } else {
+      await Store.criarEstimativa(payload);
+    }
+    toastOk('Estimativa salva!');
+    _renderLista();
+  } catch (e) {
+    toastErr(e.message ?? 'Erro ao salvar.');
+  }
 }
 
 function _renderLista() {
-  const ests = Storage.get(CHAVE_ESTS);
+  const ests = Store.estimativas;
   const el   = document.getElementById('lista-ests');
   if (!el) return;
 
@@ -97,13 +99,14 @@ function _renderLista() {
     const lucro = receita - custos;
 
     return `<div class="est-box" style="margin-bottom:14px">
-      <h3>📍 ${e.areaNome ?? e.areaId}</h3>
+      <h3>📍 ${e.areaNome ?? Store.areaNome(e.areaId)}</h3>
       <div class="est-g">
         ${_estItem('Prod. Est.', `${num(e.kgEst, 0)} kg`)}
         ${_estItem('Prod. Real', e.kgReal ? `${num(e.kgReal, 0)} kg` : '—')}
         ${_estItem('Preço/kg',   moeda(e.preco))}
         ${_estItem('Lucro Est.', moeda(lucro), true)}
       </div>
+      <button class="btn-d" style="margin-top:10px" onclick="window._deletarEstimativa('${e.id}')">✕ Remover</button>
     </div>`;
   }).join('');
 }
@@ -120,3 +123,11 @@ function _popularAreas() {
 }
 
 function _val(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
+
+window._deletarEstimativa = async (id) => {
+  try {
+    await Store.deletarEstimativa(id);
+    _renderLista();
+    toastOk('Estimativa removida.');
+  } catch (e) { toastErr(e.message ?? 'Erro ao remover.'); }
+};
