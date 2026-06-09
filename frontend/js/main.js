@@ -1,5 +1,5 @@
 /**
- * AgroGestão — Entry Point
+ * AlinhaAgro — Entry Point
  * Inicializa a aplicação, restaura sessão e registra handlers globais.
  */
 
@@ -21,6 +21,8 @@ import './modules/admin.js';
 
 /* ── Inicialização */
 document.addEventListener('DOMContentLoaded', async () => {
+  _criarParticulas();
+
   const sessaoAtiva = await restaurarSessao();
   if (sessaoAtiva) {
     _atualizarHeaderUsuario();
@@ -33,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   _bindAuthHandlers();
   _bindNavHandlers();
 
-  /* Sessão expirada (refresh token inválido) → volta para landing */
   window.addEventListener('ag:sessionExpired', () => {
     router.go('landing');
   });
@@ -122,4 +123,25 @@ function _mostrarMsgAuth(id, msg, tipo) {
   if (!el) return;
   el.className = `auth-msg ${tipo}`;
   el.textContent = msg;
+}
+
+/* ── Partículas decorativas no fundo do app */
+function _criarParticulas() {
+  const container = document.getElementById('tela-app');
+  if (!container) return;
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = [
+      `left: ${Math.random() * 100}%`,
+      `top: ${Math.random() * 100}%`,
+      `width: ${size}px`,
+      `height: ${size}px`,
+      `animation-duration: ${Math.random() * 10 + 8}s`,
+      `animation-delay: ${Math.random() * 8}s`,
+      `opacity: ${Math.random() * 0.4 + 0.1}`,
+    ].join(';');
+    container.appendChild(p);
+  }
 }
