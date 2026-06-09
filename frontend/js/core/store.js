@@ -54,9 +54,23 @@ export const Store = {
     return novo;
   },
 
+  async atualizarLancamento(id, payload) {
+    const atualizado = await api.put(`/lancamentos/${id}`, payload);
+    const idx = _data.lancamentos.findIndex(l => l.id === id);
+    if (idx >= 0) _data.lancamentos[idx] = atualizado;
+    return atualizado;
+  },
+
   async deletarLancamento(id) {
     await api.delete(`/lancamentos/${id}`);
     _data.lancamentos = _data.lancamentos.filter(l => l.id !== id);
+  },
+
+  async resumoLancamentos(inicio, fim) {
+    const params = new URLSearchParams();
+    if (inicio) params.set('inicio', inicio);
+    if (fim)    params.set('fim',    fim);
+    return api.get(`/lancamentos/resumo?${params}`);
   },
 
   /* ── Utilitários ────────────────────────────────────────── */

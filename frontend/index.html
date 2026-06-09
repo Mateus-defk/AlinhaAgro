@@ -495,7 +495,7 @@
 <!-- Expõe funções globais necessárias para onclick inline das seções (bridge temporário) -->
 <script type="module">
   import { salvarArea, atualizarArea, editarArea } from './js/modules/areas.js';
-  import { salvarLanc, renderLanc, atualizarCats } from './js/modules/lancamentos.js';
+  import { salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc } from './js/modules/lancamentos.js';
   import { salvarEstoque, renderEstoque } from './js/modules/estoque.js';
   import { calcEst, salvarEst } from './js/modules/colheita.js';
   import { mudarCadTab } from './js/modules/variedades.js';
@@ -503,7 +503,7 @@
   import { renderRel } from './js/modules/relatorio.js';
 
   Object.assign(window, {
-    salvarLanc, renderLanc, atualizarCats,
+    salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc,
     salvarEstoque, renderEstoque,
     calcEst, salvarEst,
     mudarCadTab,
