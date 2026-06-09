@@ -494,7 +494,7 @@
 
 <!-- Expõe funções globais necessárias para onclick inline das seções (bridge temporário) -->
 <script type="module">
-  import { salvarArea } from './js/modules/areas.js';
+  import { salvarArea, atualizarArea, editarArea } from './js/modules/areas.js';
   import { salvarLanc, renderLanc, atualizarCats } from './js/modules/lancamentos.js';
   import { salvarEstoque, renderEstoque } from './js/modules/estoque.js';
   import { calcEst, salvarEst } from './js/modules/colheita.js';
@@ -519,18 +519,20 @@
     },
     fecharModalArea: () => {
       document.getElementById('modal-area').classList.remove('open');
-      ['ma-nome','ma-ha','ma-variedade','ma-plantio','ma-obs'].forEach(id => {
+      ['ma-id','ma-nome','ma-ha','ma-variedade','ma-plantio','ma-obs','ma-colh-ini','ma-colh-fim'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
       document.getElementById('ma-status').value = 'ativa';
-      document.getElementById('ma-colh-ini').value = '';
-      document.getElementById('ma-colh-fim').value = '';
+      const titulo = document.getElementById('modal-area-titulo');
+      if (titulo) titulo.textContent = '🌳 Nova Área';
     },
     confirmarSalvarArea: async () => {
-      const btn = document.getElementById('btn-salvar-area');
+      const btn  = document.getElementById('btn-salvar-area');
+      const idEl = document.getElementById('ma-id');
       btn.disabled = true;
-      const ok = await salvarArea({
+
+      const dados = {
         nome:        document.getElementById('ma-nome').value.trim(),
         ha:          document.getElementById('ma-ha').value,
         variedade:   document.getElementById('ma-variedade').value.trim(),
@@ -539,7 +541,12 @@
         obs:         document.getElementById('ma-obs').value.trim() || null,
         colheitaIni: document.getElementById('ma-colh-ini').value || null,
         colheitaFim: document.getElementById('ma-colh-fim').value || null,
-      });
+      };
+
+      const ok = idEl?.value
+        ? await atualizarArea(idEl.value, dados)
+        : await salvarArea(dados);
+
       btn.disabled = false;
       if (ok) window.fecharModalArea();
     },
@@ -552,11 +559,12 @@
   });
 </script>
 
-<!-- MODAL: Nova Área -->
+<!-- MODAL: Nova / Editar Área -->
 <div class="modal-ov" id="modal-area" role="dialog" aria-modal="true" aria-labelledby="modal-area-titulo"
      onclick="if(event.target===this)fecharModalArea()">
   <div class="modal">
     <h2 id="modal-area-titulo">🌳 Nova Área</h2>
+    <input type="hidden" id="ma-id">
 
     <div class="fg">
       <div class="g">

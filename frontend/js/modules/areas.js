@@ -1,15 +1,15 @@
 /**
  * Módulo: Áreas de Produção
- * CRUD via API REST — dados do Store, sem localStorage.
+ * CRUD completo via API REST (Store → api.js → Spring Boot).
  */
 
-import { State }  from '../core/state.js';
-import { Store }  from '../core/store.js';
-import { router } from '../core/router.js';
+import { State }    from '../core/state.js';
+import { Store }    from '../core/store.js';
+import { router }   from '../core/router.js';
 import { ApiError } from '../core/api.js';
 import { toastOk, toastErr } from '../utils/toast.js';
-import { moeda } from '../utils/formatters.js';
-import { CONFIG } from '../core/config.js';
+import { moeda }    from '../utils/formatters.js';
+import { CONFIG }   from '../core/config.js';
 
 router.register('areas', renderAreas);
 
@@ -29,7 +29,10 @@ export function renderAreas() {
   if (!lista) return;
 
   if (!areas.length) {
-    lista.innerHTML = '<div class="empty"><span class="ei">🌳</span><p>Nenhuma área cadastrada.<br>Clique em <strong>Nova Área</strong> para começar.</p></div>';
+    lista.innerHTML = `<div class="empty">
+      <span class="ei">🌳</span>
+      <p>Nenhuma área cadastrada.<br>Clique em <strong>Nova Área</strong> para começar.</p>
+    </div>`;
     return;
   }
 
@@ -45,7 +48,7 @@ export function renderAreas() {
           <h3>${a.nome}</h3>
           <div class="var">${a.variedade ?? '—'} · ${a.ha ?? 0} ha</div>
         </div>
-        <span class="ac-status s-prod">${a.status ?? 'ativa'}</span>
+        <span class="ac-status s-${a.status ?? 'ativa'}">${a.status ?? 'ativa'}</span>
       </div>
       <div class="ac-body">
         <div class="ac-info">
@@ -61,8 +64,11 @@ export function renderAreas() {
         </div>
       </div>
       <div class="ac-foot">
-        <span class="colh-badge">🌾 Colheita: ${_mesNome(a.colheitaIni)} → ${_mesNome(a.colheitaFim)}</span>
-        <button class="btn-d" onclick="window._deletarArea('${a.id}')">Excluir</button>
+        <span class="colh-badge">🌾 ${_mesNome(a.colheitaIni)} → ${_mesNome(a.colheitaFim)}</span>
+        <div class="ac-actions">
+          <button class="btn-edit" onclick="window._editarArea('${a.id}')">✏️ Editar</button>
+          <button class="btn-d"    onclick="window._deletarArea('${a.id}')">Excluir</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -78,33 +84,86 @@ export async function salvarArea(dados) {
   }
 
   try {
-    await Store.criarArea({
-      nome:        dados.nome,
-      ha:          Number(dados.ha),
-      variedade:   dados.variedade,
-      plantio:     dados.plantio || null,
-      status:      dados.status || 'ativa',
-      obs:         dados.obs || null,
-      colheitaIni: dados.colheitaIni ? Number(dados.colheitaIni) : null,
-      colheitaFim: dados.colheitaFim ? Number(dados.colheitaFim) : null,
-    });
+    await Store.criarArea(_payload(dados));
     toastOk(`Área "${dados.nome}" cadastrada!`);
     renderAreas();
     return true;
   } catch (err) {
-    toastErr(err instanceof ApiError ? err.message : 'Erro ao salvar área.');
+    toastErr(_msgErro(err));
     return false;
   }
+}
+
+export async function atualizarArea(id, dados) {
+  try {
+    await Store.atualizarArea(id, _payload(dados));
+    toastOk(`Área "${dados.nome}" atualizada!`);
+    renderAreas();
+    return true;
+  } catch (err) {
+    toastErr(_msgErro(err));
+    return false;
+  }
+}
+
+export function editarArea(id) {
+  const area = Store.areaById(id);
+  if (!area) return;
+
+  _setModal('ma-id',        id);
+  _setModal('ma-nome',      area.nome);
+  _setModal('ma-ha',        area.ha);
+  _setModal('ma-variedade', area.variedade ?? '');
+  _setModal('ma-plantio',   area.plantio ?? '');
+  _setModal('ma-status',    area.status ?? 'ativa');
+  _setModal('ma-obs',       area.obs ?? '');
+  _setModal('ma-colh-ini',  area.colheitaIni ?? '');
+  _setModal('ma-colh-fim',  area.colheitaFim ?? '');
+
+  const titulo = document.getElementById('modal-area-titulo');
+  if (titulo) titulo.textContent = '✏️ Editar Área';
+
+  document.getElementById('modal-area').classList.add('open');
+  document.getElementById('ma-nome').focus();
 }
 
 export async function deletarArea(id) {
   try {
     await Store.deletarArea(id);
-    renderAreas();
     toastOk('Área removida.');
+    renderAreas();
   } catch (err) {
-    toastErr(err instanceof ApiError ? err.message : 'Erro ao remover área.');
+    toastErr(_msgErro(err));
   }
+}
+
+/* ── Helpers internos */
+
+function _payload(dados) {
+  return {
+    nome:        dados.nome,
+    ha:          Number(dados.ha),
+    variedade:   dados.variedade,
+    plantio:     dados.plantio || null,
+    status:      dados.status  || 'ativa',
+    obs:         dados.obs     || null,
+    colheitaIni: dados.colheitaIni ? Number(dados.colheitaIni) : null,
+    colheitaFim: dados.colheitaFim ? Number(dados.colheitaFim) : null,
+  };
+}
+
+function _msgErro(err) {
+  if (err instanceof ApiError) {
+    if (err.status === 402) return 'Limite do plano atingido. Faça upgrade para continuar.';
+    if (err.status === 404) return 'Área não encontrada.';
+    return err.message;
+  }
+  return 'Erro ao salvar área.';
+}
+
+function _setModal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val ?? '';
 }
 
 function _mesNome(m) {
@@ -112,4 +171,5 @@ function _mesNome(m) {
   return nomes[m] ?? '—';
 }
 
+window._editarArea  = editarArea;
 window._deletarArea = deletarArea;
