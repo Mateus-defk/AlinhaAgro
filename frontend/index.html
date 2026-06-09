@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AgroGestão — Gestão rural inteligente para produtores de fruticultura irrigada. Controle de lançamentos, estoque, irrigação, pragas e estimativa de lucro.">
-  <meta name="theme-color" content="#0d1f0f">
+  <meta name="description" content="AlinhaAgro — Gestão rural inteligente para produtores de fruticultura irrigada. Controle de lançamentos, estoque, irrigação, pragas e estimativa de lucro.">
+  <meta name="theme-color" content="#0d1117">
 
   <!-- Open Graph -->
-  <meta property="og:title"       content="AgroGestão — Gestão Rural Inteligente">
+  <meta property="og:title"       content="AlinhaAgro — Gestão Rural Inteligente">
   <meta property="og:description" content="Controle completo da sua propriedade rural. Do campo ao lucro, com dados reais.">
   <meta property="og:type"        content="website">
   <meta property="og:locale"      content="pt_BR">
 
-  <title>AgroGestão — Gestão Rural Inteligente</title>
+  <title>AlinhaAgro — Gestão Rural Inteligente</title>
 
   <!-- Fontes via CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Ícones Tabler -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -46,7 +46,7 @@
       <div class="land-logo">
         <div class="land-logo-icon" aria-hidden="true">🌾</div>
         <div>
-          <h1>AgroGestão</h1>
+          <h1>AlinhaAgro</h1>
           <span>Gestão Rural Inteligente</span>
         </div>
       </div>
@@ -151,7 +151,7 @@
     </section>
 
     <footer class="land-footer" role="contentinfo">
-      © 2025 AgroGestão · Todos os direitos reservados · Desenvolvido para produtores rurais brasileiros<br>
+      © 2025 AlinhaAgro · Todos os direitos reservados · Desenvolvido para produtores rurais brasileiros<br>
       <small style="margin-top:6px;display:block">Dados armazenados localmente no seu dispositivo</small>
     </footer>
 
@@ -165,7 +165,7 @@
   <div class="auth-left" aria-hidden="true">
     <div class="auth-left-logo">
       <div class="icon">🌾</div>
-      <h1>AgroGestão</h1>
+      <h1>AlinhaAgro</h1>
       <p>Gestão Rural Inteligente</p>
     </div>
     <div class="auth-left-tagline">
@@ -237,8 +237,11 @@
 
   <header class="app-header" role="banner">
     <div class="app-logo">
-      <div class="app-logo-icon" aria-hidden="true">🌾</div>
-      <h1>AgroGestão</h1>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menu" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="app-logo-icon" aria-hidden="true">🌿</div>
+      <h1>AlinhaAgro</h1>
       <span class="plano-tag" id="app-plano-tag" aria-label="Plano atual">—</span>
     </div>
     <div class="app-user">
@@ -249,27 +252,28 @@
       <button class="btn-sair" onclick="sair()" aria-label="Sair do sistema">Sair</button>
     </div>
   </header>
+  <div class="nav-overlay" id="nav-overlay" onclick="toggleNav()"></div>
 
   <nav class="app-nav" role="navigation" aria-label="Menu do aplicativo">
     <div class="app-nav-row1">
       <ul id="app-nav-ul" role="menubar">
-        <li role="none"><a id="nt-dash"     role="menuitem" onclick="ir('dash')"    ><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</a></li>
-        <li role="none"><a id="nt-areas"    role="menuitem" onclick="ir('areas')"   ><i class="ti ti-map"              aria-hidden="true"></i> Áreas</a></li>
-        <li role="none"><a id="nt-lanc"     role="menuitem" onclick="ir('lanc')"    ><i class="ti ti-cash"             aria-hidden="true"></i> Lançamentos</a></li>
-        <li role="none"><a id="nt-colheita" role="menuitem" onclick="ir('colheita')"><i class="ti ti-plant"            aria-hidden="true"></i> Colheita &amp; Lucro</a></li>
-        <li role="none"><a id="nt-relatorio" role="menuitem" onclick="ir('relatorio')"><i class="ti ti-chart-bar"      aria-hidden="true"></i> Relatório</a></li>
+        <li role="none"><a id="nt-dash"     role="menuitem" onclick="ir('dash');closeNav()"    ><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</a></li>
+        <li role="none"><a id="nt-areas"    role="menuitem" onclick="ir('areas');closeNav()"   ><i class="ti ti-map"              aria-hidden="true"></i> Áreas</a></li>
+        <li role="none"><a id="nt-lanc"     role="menuitem" onclick="ir('lanc');closeNav()"    ><i class="ti ti-cash"             aria-hidden="true"></i> Lançamentos</a></li>
+        <li role="none"><a id="nt-colheita" role="menuitem" onclick="ir('colheita');closeNav()"><i class="ti ti-plant"            aria-hidden="true"></i> Colheita &amp; Lucro</a></li>
+        <li role="none"><a id="nt-relatorio" role="menuitem" onclick="ir('relatorio');closeNav()"><i class="ti ti-chart-bar"      aria-hidden="true"></i> Relatório</a></li>
         <li id="li-admin-panel" style="display:none">
-          <a id="nt-admin-panel" role="menuitem" onclick="ir('admin')" style="color:rgba(253,217,122,0.7)"><i class="ti ti-settings" aria-hidden="true"></i> Admin</a>
+          <a id="nt-admin-panel" role="menuitem" onclick="ir('admin');closeNav()" style="color:rgba(253,217,122,0.7)"><i class="ti ti-settings" aria-hidden="true"></i> Admin</a>
         </li>
       </ul>
     </div>
     <div class="app-nav-row2">
       <ul id="app-nav-ul2" role="menubar">
-        <li id="li-estoque"><a id="nt-estoque"    role="menuitem" onclick="ir('estoque')"   ><i class="ti ti-box"         aria-hidden="true"></i> Estoque <span class="prem-dot" aria-hidden="true"></span></a></li>
-        <li><a id="nt-pragas"    role="menuitem" onclick="ir('pragas')"    ><i class="ti ti-bug"       aria-hidden="true"></i> Pragas</a></li>
-        <li><a id="nt-irrigacao" role="menuitem" onclick="ir('irrigacao')" ><i class="ti ti-droplet"   aria-hidden="true"></i> Irrigação</a></li>
-        <li><a id="nt-variedades" role="menuitem" onclick="ir('variedades')"><i class="ti ti-folder"   aria-hidden="true"></i> Cadastros</a></li>
-        <li><a id="nt-mercado"   role="menuitem" onclick="tentarMercado()"><i class="ti ti-star"       aria-hidden="true"></i> Mercado <span class="lock-tip" aria-hidden="true">🔒</span></a></li>
+        <li id="li-estoque"><a id="nt-estoque"    role="menuitem" onclick="ir('estoque');closeNav()"   ><i class="ti ti-box"         aria-hidden="true"></i> Estoque <span class="prem-dot" aria-hidden="true"></span></a></li>
+        <li><a id="nt-pragas"    role="menuitem" onclick="ir('pragas');closeNav()"    ><i class="ti ti-bug"       aria-hidden="true"></i> Pragas</a></li>
+        <li><a id="nt-irrigacao" role="menuitem" onclick="ir('irrigacao');closeNav()" ><i class="ti ti-droplet"   aria-hidden="true"></i> Irrigação</a></li>
+        <li><a id="nt-variedades" role="menuitem" onclick="ir('variedades');closeNav()"><i class="ti ti-folder"   aria-hidden="true"></i> Cadastros</a></li>
+        <li><a id="nt-mercado"   role="menuitem" onclick="tentarMercado();closeNav()"><i class="ti ti-star"       aria-hidden="true"></i> Mercado <span class="lock-tip" aria-hidden="true">🔒</span></a></li>
       </ul>
     </div>
   </nav>
@@ -460,6 +464,28 @@
 
   </main>
 </div>
+
+<!-- ── Mobile nav toggle ── -->
+<script>
+  function toggleNav() {
+    const nav = document.querySelector('.app-nav');
+    const overlay = document.getElementById('nav-overlay');
+    const hamburger = document.getElementById('nav-hamburger');
+    const open = nav.classList.toggle('open');
+    overlay.classList.toggle('open', open);
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeNav() {
+    const nav = document.querySelector('.app-nav');
+    const overlay = document.getElementById('nav-overlay');
+    const hamburger = document.getElementById('nav-hamburger');
+    nav.classList.remove('open');
+    overlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
 
 <!-- ── JavaScript (ES Modules) ── -->
 <script type="module" src="js/main.js"></script>

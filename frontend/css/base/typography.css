@@ -1,27 +1,10 @@
 /* ══════════════════════════════════════════════
-   TIPOGRAFIA — AgroGestão
+   TIPOGRAFIA — AlinhaAgro
    ══════════════════════════════════════════════ */
 
 /* Fontes carregadas via CDN no index.html */
 
-/* ── Títulos de seção */
-.s-titulo {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  color: var(--g1);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.s-titulo::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: linear-gradient(90deg, var(--m2), transparent);
-  border-radius: 2px;
-}
+/* .s-titulo é definido em app.css com dark theme */
 
 /* ── Moeda e números */
 .vp {

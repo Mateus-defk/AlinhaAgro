@@ -5,7 +5,7 @@
  */
 
 export const CONFIG = {
-  APP_NAME: 'AgroGestão',
+  APP_NAME: 'AlinhaAgro',
   APP_VERSION: '2.1.0',
 
   /* URL base da API REST — definida pelo servidor em produção */
