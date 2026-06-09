@@ -22,6 +22,30 @@ Ultrapassar o limite retorna `402 Payment Required`.
 
 ---
 
+## Paginação
+
+Endpoints de listagem aceitam os query params abaixo (Spring Data `Pageable`):
+
+| Param | Padrão | Descrição |
+|---|---|---|
+| `page` | `0` | Página (base 0) |
+| `size` | `20` | Itens por página (máx. 100) |
+| `sort` | `criadoEm,desc` | Campo e direção (`asc`/`desc`) |
+
+**Exemplo:** `GET /api/lancamentos?tipo=despesa&page=0&size=10&sort=data,desc`
+
+**Resposta paginada:**
+```json
+{
+  "content": [...],
+  "page": { "number": 0, "size": 10, "totalElements": 45, "totalPages": 5 }
+}
+```
+
+Endpoints que **não** paginam (retornam array direto): `/api/areas`, `/api/precos-mercado`.
+
+---
+
 ## 1. Autenticação `/api/auth`
 
 ### POST /api/auth/register — Cadastro

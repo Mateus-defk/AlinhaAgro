@@ -3,11 +3,12 @@
 ## Estrutura de branches
 
 ```
-main          ← produção (deploy automático no Railway)
-  └── dev     ← integração (base para features)
+main              ← produção (deploy automático no Railway + Vercel)
+  └── dev         ← integração (base para features)
         └── feature/nome-da-feature
         └── fix/nome-do-bug
         └── chore/nome-da-tarefa
+  └── hotfix/nome ← correção urgente em produção (branch a partir de main)
 ```
 
 ## Fluxo de trabalho
@@ -31,6 +32,28 @@ main          ← produção (deploy automático no Railway)
 5. Merge para dev após revisão
 6. Merge dev → main para deploy
 ```
+
+## Fluxo de hotfix (bug crítico em produção)
+
+```
+1. Criar branch a partir de main (não de dev)
+   git checkout main && git pull
+   git checkout -b hotfix/corrigir-login-invalido
+
+2. Corrigir o bug com o menor diff possível
+
+3. Testar localmente
+   cd api && .\mvnw test
+
+4. PR: hotfix → main  (revisar antes de mergear)
+5. Merge para main → deploy automático em produção
+6. Backport para dev (evitar regressão futura)
+   git checkout dev && git merge main
+```
+
+> Hotfix nunca passa por dev antes — o objetivo é tempo mínimo até produção.
+
+---
 
 ## Convenção de commits (Conventional Commits)
 

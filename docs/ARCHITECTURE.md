@@ -13,7 +13,7 @@
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
 │  BACKEND                                                     │
-│  Spring Boot 4.x + Java 21                                  │
+│  Spring Boot 3.x + Java 21                                  │
 │  Hospedagem: Railway / Fly.io (Docker)                      │
 │  api.alinhaagro.com.br                                      │
 │                                                             │
@@ -39,7 +39,7 @@
 | Camada | Tecnologia |
 |---|---|
 | Runtime | Java 21 (Virtual Threads) |
-| Framework | Spring Boot 4.x |
+| Framework | Spring Boot 3.x |
 | Segurança | Spring Security + JWT (jjwt 0.12.x) |
 | Banco | PostgreSQL 16 |
 | Migrations | Flyway |
@@ -68,6 +68,74 @@ com.alinhaagro.api/
 ├── exception/       # GlobalExceptionHandler, ResourceNotFoundException, ...
 └── ApiApplication.java
 ```
+
+## Arquitetura do Frontend
+
+```
+frontend/
+├── index.html               ← SPA entry point — todas as views renderizadas via JS
+├── css/
+│   ├── base/                ← variáveis, reset, tipografia, animações
+│   ├── components/          ← botões, cards, formulários, modais, nav, tabelas, toasts
+│   ├── sections/            ← landing, auth, app (cada seção tem seu CSS)
+│   └── main.css             ← @import de tudo — único arquivo carregado no HTML
+└── js/
+    ├── core/                ← infraestrutura da aplicação
+    │   ├── config.js        ← API_BASE_URL e constantes globais
+    │   ├── api.js           ← apiFetch com interceptor de 401/refresh automático
+    │   ├── auth.js          ← login, logout, tryRefresh, isAuthenticated
+    │   ├── router.js        ← roteamento SPA por hash (#/dashboard, #/areas...)
+    │   ├── state.js         ← estado global em memória (usuário, plano)
+    │   └── storage.js       ← abstração localStorage → será trocado por api.js na v1.0
+    ├── modules/             ← um arquivo por tela/feature
+    │   ├── dashboard.js     ← KPIs, gráficos mensais, calendário de colheita
+    │   ├── areas.js         ← CRUD de talhões
+    │   ├── lancamentos.js   ← receitas, despesas
+    │   ├── colheita.js      ← estimativa de produção e lucro
+    │   ├── estoque.js       ← insumos + alertas de mínimo
+    │   ├── campo.js         ← pragas/MIP e irrigação
+    │   ├── variedades.js    ← cadastros auxiliares
+    │   ├── mercado.js       ← preços HF Brasil (Premium)
+    │   ├── relatorio.js     ← consolidado com gráficos
+    │   └── admin.js         ← painel administrativo (usuários, planos)
+    └── utils/               ← funções puras sem efeito colateral
+        ├── formatters.js    ← moeda, datas, números
+        ├── validators.js    ← validação de formulários
+        ├── toast.js         ← notificações de sucesso/erro
+        └── charts.js        ← wrappers dos gráficos
+```
+
+### Fluxo de renderização (SPA sem framework)
+
+```
+URL hash muda (#/areas)
+        │
+        ▼
+router.js — mapeia hash → módulo
+        │
+        ▼
+módulo.init() — chama api.js → backend
+        │
+        ▼
+DOM manipulado diretamente — sem virtual DOM
+```
+
+### Migração localStorage → API (em andamento)
+
+O frontend atualmente persiste dados em `localStorage` (offline-first).
+A migração para o backend ocorre em `js/core/storage.js`:
+
+```javascript
+// Antes (localStorage)
+Storage.get('areas') → JSON.parse(localStorage.getItem('areas'))
+
+// Depois (API REST)
+Storage.get('areas') → apiFetch('/api/areas')
+```
+
+Cada módulo usa `Storage.*` — a troca é transparente para os módulos.
+
+---
 
 ## Banco de dados — schema
 

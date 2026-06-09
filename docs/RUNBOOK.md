@@ -14,7 +14,7 @@
 
 ```powershell
 # Entrar no diretório correto
-cd C:\Users\natanael.adm\ArgoGestao\api
+cd C:\Users\natanael.adm\AlinhaArgo\api
 
 # Subir PostgreSQL em background
 docker compose up -d
@@ -49,16 +49,16 @@ docker compose down -v
 
 ## Erro comum: "no configuration file provided: not found"
 
-**Causa**: `docker compose` rodado na pasta errada (`ArgoGestao/` em vez de `ArgoGestao/api/`).
+**Causa**: `docker compose` rodado na pasta errada (`AlinhaArgo/` em vez de `AlinhaArgo/api/`).
 
 **Solução**:
 ```powershell
 # Opção 1 — entrar na pasta correta
-cd ArgoGestao\api
+cd AlinhaArgo\api
 docker compose up -d
 
 # Opção 2 — especificar o arquivo diretamente
-docker compose -f ArgoGestao\api\compose.yaml up -d
+docker compose -f AlinhaArgo\api\compose.yaml up -d
 ```
 
 ---
@@ -66,7 +66,7 @@ docker compose -f ArgoGestao\api\compose.yaml up -d
 ## Rodar os testes
 
 ```powershell
-cd C:\Users\natanael.adm\ArgoGestao\api
+cd C:\Users\natanael.adm\AlinhaArgo\api
 
 # Todos os testes (unitários + integração com H2)
 .\mvnw test
@@ -136,7 +136,7 @@ docker compose up -d          # recria container limpo
 
 ---
 
-## Deploy — Railway
+## Deploy — Backend (Railway)
 
 ```bash
 # 1. Instalar Railway CLI
@@ -145,17 +145,57 @@ npm install -g @railway/cli
 # 2. Login
 railway login
 
-# 3. Inicializar projeto (primeira vez)
+# 3. Inicializar projeto (primeira vez — dentro de api/)
+cd api
 railway init
 
-# 4. Configurar variáveis
+# 4. Configurar variáveis de ambiente
 railway variables set DATABASE_URL=jdbc:postgresql://...
-railway variables set JWT_SECRET=seu_secret_aqui
+railway variables set DATABASE_USER=postgres
+railway variables set DATABASE_PASS=senha_aqui
+railway variables set JWT_SECRET=seu_secret_256bits
 railway variables set SENTRY_DSN=https://...
+railway variables set SPRING_PROFILES_ACTIVE=prod
 
 # 5. Deploy
 railway up
 ```
+
+O Railway detecta o `Dockerfile` ou `pom.xml` automaticamente e faz o build.  
+A URL pública gerada deve ser apontada como `api.alinhaagro.com.br` via CNAME.
+
+---
+
+## Deploy — Frontend (Vercel)
+
+```bash
+# 1. Instalar Vercel CLI
+npm install -g vercel
+
+# 2. Login
+vercel login
+
+# 3. Deploy (dentro de frontend/)
+cd frontend
+vercel
+
+# Perguntas do CLI:
+# - Set up and deploy? → Y
+# - Which scope? → sua conta
+# - Link to existing project? → N (primeira vez)
+# - Project name? → alinhaagro-frontend
+# - In which directory is your code? → ./   (já está em frontend/)
+# - Override settings? → N
+```
+
+**Configuração no painel Vercel após o primeiro deploy:**
+1. Settings → Domains → adicionar `alinhaagro.com.br`
+2. Seguir instruções de CNAME na Registra.br
+3. Settings → Environment Variables → adicionar `API_BASE=https://api.alinhaagro.com.br`
+
+O Vercel detecta HTML/CSS/JS estático automaticamente — sem configuração adicional.
+
+**Deploy automático:** qualquer push para `main` na pasta `frontend/` dispara novo deploy (configurável no painel Vercel em Settings → Git → Root Directory → `frontend`).
 
 ---
 
