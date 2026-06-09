@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgroGestão — Gestão rural inteligente para produtores de fruticultura irrigada. Controle de lançamentos, estoque, irrigação, pragas e estimativa de lucro.">
+  <meta name="theme-color" content="#0d1f0f">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="AgroGestão — Gestão Rural Inteligente">
+  <meta property="og:description" content="Controle completo da sua propriedade rural. Do campo ao lucro, com dados reais.">
+  <meta property="og:type"        content="website">
+  <meta property="og:locale"      content="pt_BR">
+
+  <title>AgroGestão — Gestão Rural Inteligente</title>
+
+  <!-- Fontes via CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Ícones Tabler -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Configuração de runtime injetada pelo servidor em produção -->
+  <!-- Em desenvolvimento, CONFIG vem de js/core/config.js com fallback -->
+  <!-- <script>window.__ENV__ = { API_URL: '${API_URL}', APP_ENV: '${APP_ENV}' };</script> -->
+</head>
+<body>
+
+<!-- ── Toast global ── -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+<div class="autosave-bar" id="autosave-bar"><span class="as-dot"></span> Salvando...</div>
+
+<!-- ════════════════════════════════════
+     LANDING PAGE
+════════════════════════════════════ -->
+<div id="tela-landing" class="tela ativa">
+  <div class="landing-bg" aria-hidden="true"></div>
+  <div class="landing-wrap">
+
+    <nav class="land-nav" role="navigation" aria-label="Navegação principal">
+      <div class="land-logo">
+        <div class="land-logo-icon" aria-hidden="true">🌾</div>
+        <div>
+          <h1>AgroGestão</h1>
+          <span>Gestão Rural Inteligente</span>
+        </div>
+      </div>
+      <div class="land-nav-btns">
+        <button class="btn-ghost" onclick="mostrarAuth('login')">Entrar</button>
+        <button class="btn-cta"   onclick="mostrarAuth('cadastro')">Começar Grátis</button>
+      </div>
+    </nav>
+
+    <section class="land-hero">
+      <div class="hero-badge">🥭 Especializado em Fruticultura</div>
+      <h2>Gerencie seu pomar<br>com <em>inteligência</em></h2>
+      <p>Controle de áreas, lançamentos, custos de irrigação, adubação, mão de obra, poda e estimativa de lucro — tudo em um único lugar.</p>
+      <div class="hero-btns">
+        <button class="btn-hero-p" onclick="mostrarAuth('cadastro')">Criar conta gratuita →</button>
+        <button class="btn-hero-s" onclick="mostrarAuth('login')">Já tenho conta</button>
+      </div>
+    </section>
+
+    <div class="hero-stats" aria-label="Estatísticas">
+      <div class="hero-stat"><div class="hs-v">3 Planos</div><div class="hs-l">Para cada tamanho</div></div>
+      <div class="hero-stat"><div class="hs-v">100%</div><div class="hs-l">Dados locais</div></div>
+      <div class="hero-stat"><div class="hs-v">6+</div><div class="hs-l">Módulos integrados</div></div>
+      <div class="hero-stat"><div class="hs-v">∞</div><div class="hs-l">Lançamentos</div></div>
+    </div>
+
+    <section class="land-features" aria-labelledby="feat-title">
+      <h3 id="feat-title">Tudo que seu pomar precisa</h3>
+      <div class="feat-grid">
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">💧</span><h4>Irrigação</h4><p>Registre custos de energia, manutenção e horas de bombeamento por área.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">🌿</span><h4>Adubação</h4><p>Controle aplicações foliares, fertirrigação, NPK e micronutrientes.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">👷</span><h4>Mão de Obra</h4><p>Lançamentos de diárias, contratos e serviços terceirizados por talhão.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">✂️</span><h4>Poda</h4><p>Registre poda de produção, limpeza e indução por período e área.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">📊</span><h4>Estimativa de Lucro</h4><p>Calcule receita, custos, margem e produtividade por hectare em tempo real.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">🗓</span><h4>Calendário Visual</h4><p>Veja florada e colheita de todas as áreas em um calendário anual.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">📋</span><h4>Relatório Consolidado</h4><p>Visão completa por área ou propriedade com gráficos de despesas.</p></div>
+        <div class="feat-item"><span class="feat-icon" aria-hidden="true">⭐</span><h4>Preços HF Brasil</h4><p>Dados reais do mercado de manga para comparar com seu preço de venda. <em>(Premium)</em></p></div>
+      </div>
+    </section>
+
+    <section class="land-planos" aria-labelledby="planos-title">
+      <h3 id="planos-title">Escolha seu plano</h3>
+      <p>Planos flexíveis para cada tamanho de propriedade</p>
+      <div class="planos-grid">
+
+        <div class="plano-card" onclick="mostrarAuth('cadastro','mensal')">
+          <span class="plano-badge badge-mensal">Mensal</span>
+          <div class="plano-preco">R$ 159<span style="font-size:1.4rem;color:#fff">,90</span><span>/mês</span></div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.35);margin-bottom:6px;font-weight:600">Sem fidelidade · cancele quando quiser</div>
+          <div class="plano-ha">Até <strong>5 hectares</strong> cadastrados</div>
+          <ul class="plano-features">
+            <li>Cadastro de até 3 áreas</li>
+            <li>Lançamentos ilimitados</li>
+            <li>Controle de irrigação</li>
+            <li>Adubação e defensivos</li>
+            <li>Mão de obra e poda</li>
+            <li>Estimativa de lucro por área</li>
+            <li>Calendário de colheita</li>
+            <li class="lock">Estoque de materiais</li>
+            <li class="lock">Cadastros ilimitados</li>
+            <li class="lock">Preços médios HF Brasil</li>
+          </ul>
+          <button class="btn-plano">Assinar plano Mensal</button>
+        </div>
+
+        <div class="plano-card destaque" onclick="mostrarAuth('cadastro','trimestral')">
+          <span class="plano-badge badge-trimestral">Trimestral</span>
+          <div style="position:absolute;top:16px;right:16px;background:var(--m2);color:#fff;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.8px;text-transform:uppercase">12% OFF</div>
+          <div class="plano-preco">R$ 369<span style="font-size:1.4rem;color:#fff">,90</span><span>/trim.</span></div>
+          <div style="font-size:.72rem;color:var(--m4);margin-bottom:6px;font-weight:700">≈ R$ 123,30/mês · Economia de R$ 438,00/ano</div>
+          <div class="plano-ha">Até <strong>10 hectares</strong> cadastrados</div>
+          <ul class="plano-features">
+            <li>Cadastro de até 8 áreas</li>
+            <li>Lançamentos ilimitados</li>
+            <li>Todos os módulos básicos</li>
+            <li>📦 Estoque — até <strong>30 itens</strong></li>
+            <li>🗂️ Cadastros — até <strong>15 itens</strong> por tipo</li>
+            <li class="lock">Cadastros ilimitados</li>
+            <li class="lock">Preços médios HF Brasil</li>
+          </ul>
+          <button class="btn-plano">Assinar Trimestral</button>
+        </div>
+
+        <div class="plano-card" onclick="mostrarAuth('cadastro','anual')">
+          <span class="plano-badge badge-anual">Anual ⭐ Premium</span>
+          <div style="position:absolute;top:16px;right:16px;background:linear-gradient(135deg,var(--g5),var(--g4));color:#fff;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.8px;text-transform:uppercase">21% OFF</div>
+          <div class="plano-preco">R$ 1.500<span style="font-size:1.4rem;color:#fff">,00</span><span>/ano</span></div>
+          <div style="font-size:.72rem;color:var(--m4);margin-bottom:6px;font-weight:700">≈ R$ 125,00/mês · Sem restrições</div>
+          <div class="plano-ha"><strong>Hectares ilimitados</strong> — sem restrições</div>
+          <ul class="plano-features">
+            <li>Áreas ilimitadas</li>
+            <li>Lançamentos ilimitados</li>
+            <li class="premium">🗂️ Cadastros ilimitados</li>
+            <li class="premium">📦 Estoque ilimitado</li>
+            <li class="premium">Preços médios HF Brasil</li>
+            <li class="premium">Análise de faturamento vs mercado</li>
+          </ul>
+          <button class="btn-plano">Assinar plano Anual</button>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="land-footer" role="contentinfo">
+      © 2025 AgroGestão · Todos os direitos reservados · Desenvolvido para produtores rurais brasileiros<br>
+      <small style="margin-top:6px;display:block">Dados armazenados localmente no seu dispositivo</small>
+    </footer>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     AUTH
+════════════════════════════════════ -->
+<div id="tela-auth" class="tela" role="main">
+  <div class="auth-left" aria-hidden="true">
+    <div class="auth-left-logo">
+      <div class="icon">🌾</div>
+      <h1>AgroGestão</h1>
+      <p>Gestão Rural Inteligente</p>
+    </div>
+    <div class="auth-left-tagline">
+      <h2>"Do campo ao lucro,<br>com controle total."</h2>
+      <p>Registre lançamentos, acompanhe investimentos e estime o lucro da sua safra em tempo real.</p>
+    </div>
+    <div class="auth-feat-list">
+      <div class="auth-feat-item">Lançamentos ilimitados por área</div>
+      <div class="auth-feat-item">Calendário visual de colheita</div>
+      <div class="auth-feat-item">Estimativa de lucro em tempo real</div>
+      <div class="auth-feat-item">Dados seguros no seu dispositivo</div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <!-- LOGIN -->
+    <div id="box-login" class="auth-form-box">
+      <button class="auth-back" onclick="voltarLanding()">← Voltar</button>
+      <h2>Bem-vindo de volta</h2>
+      <p>Entre com suas credenciais para acessar o sistema</p>
+      <div class="form-g">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="form-g has-icon">
+        <label for="login-senha">Senha</label>
+        <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="eye-btn" onclick="toggleSenha('login-senha',this)" aria-label="Mostrar senha">👁</button>
+      </div>
+      <div class="auth-msg" id="login-msg" role="alert"></div>
+      <button class="btn-auth" id="btn-login"><span>Entrar no sistema</span></button>
+      <div class="auth-switch">Não tem conta? <a onclick="trocarAuth('cadastro')" role="button" tabindex="0">Criar agora</a></div>
+    </div>
+
+    <!-- CADASTRO -->
+    <div id="box-cadastro" class="auth-form-box hidden">
+      <button class="auth-back" onclick="voltarLanding()">← Voltar</button>
+      <h2>Criar sua conta</h2>
+      <p>Preencha os dados e escolha seu plano</p>
+      <div id="cadastro-plano-badge" class="auth-plano-info hidden">
+        <span aria-hidden="true">📋</span><span id="cadastro-plano-texto"></span>
+      </div>
+      <div class="form-g"><label for="cad-nome">Nome completo</label><input type="text" id="cad-nome" placeholder="João da Silva" autocomplete="name"></div>
+      <div class="form-g"><label for="cad-email">E-mail</label><input type="email" id="cad-email" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="form-g has-icon">
+        <label for="cad-senha">Senha</label>
+        <input type="password" id="cad-senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+        <button type="button" class="eye-btn" onclick="toggleSenha('cad-senha',this)" aria-label="Mostrar senha">👁</button>
+      </div>
+      <div class="form-g">
+        <label for="cad-plano">Plano</label>
+        <select id="cad-plano">
+          <option value="mensal">Mensal — R$ 159,90/mês (até 5 ha)</option>
+          <option value="trimestral">Trimestral — R$ 369,90/trim. · 12% OFF (até 10 ha)</option>
+          <option value="anual">Anual Premium — R$ 1.500,00/ano · 21% OFF (ilimitado)</option>
+        </select>
+      </div>
+      <div class="auth-msg" id="cad-msg" role="alert"></div>
+      <button class="btn-auth" id="btn-cad"><span>Criar conta e entrar</span></button>
+      <div class="auth-switch">Já tem conta? <a onclick="trocarAuth('login')" role="button" tabindex="0">Entrar</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     APP PRINCIPAL
+════════════════════════════════════ -->
+<div id="tela-app" class="tela" role="main">
+
+  <header class="app-header" role="banner">
+    <div class="app-logo">
+      <div class="app-logo-icon" aria-hidden="true">🌾</div>
+      <h1>AgroGestão</h1>
+      <span class="plano-tag" id="app-plano-tag" aria-label="Plano atual">—</span>
+    </div>
+    <div class="app-user">
+      <div class="app-user-info" aria-live="polite">
+        <div class="app-user-name" id="app-user-name">—</div>
+        <div class="app-user-plan" id="app-user-plan">—</div>
+      </div>
+      <button class="btn-sair" onclick="sair()" aria-label="Sair do sistema">Sair</button>
+    </div>
+  </header>
+
+  <nav class="app-nav" role="navigation" aria-label="Menu do aplicativo">
+    <div class="app-nav-row1">
+      <ul id="app-nav-ul" role="menubar">
+        <li role="none"><a id="nt-dash"     role="menuitem" onclick="ir('dash')"    ><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</a></li>
+        <li role="none"><a id="nt-areas"    role="menuitem" onclick="ir('areas')"   ><i class="ti ti-map"              aria-hidden="true"></i> Áreas</a></li>
+        <li role="none"><a id="nt-lanc"     role="menuitem" onclick="ir('lanc')"    ><i class="ti ti-cash"             aria-hidden="true"></i> Lançamentos</a></li>
+        <li role="none"><a id="nt-colheita" role="menuitem" onclick="ir('colheita')"><i class="ti ti-plant"            aria-hidden="true"></i> Colheita &amp; Lucro</a></li>
+        <li role="none"><a id="nt-relatorio" role="menuitem" onclick="ir('relatorio')"><i class="ti ti-chart-bar"      aria-hidden="true"></i> Relatório</a></li>
+        <li id="li-admin-panel" style="display:none">
+          <a id="nt-admin-panel" role="menuitem" onclick="ir('admin')" style="color:rgba(253,217,122,0.7)"><i class="ti ti-settings" aria-hidden="true"></i> Admin</a>
+        </li>
+      </ul>
+    </div>
+    <div class="app-nav-row2">
+      <ul id="app-nav-ul2" role="menubar">
+        <li id="li-estoque"><a id="nt-estoque"    role="menuitem" onclick="ir('estoque')"   ><i class="ti ti-box"         aria-hidden="true"></i> Estoque <span class="prem-dot" aria-hidden="true"></span></a></li>
+        <li><a id="nt-pragas"    role="menuitem" onclick="ir('pragas')"    ><i class="ti ti-bug"       aria-hidden="true"></i> Pragas</a></li>
+        <li><a id="nt-irrigacao" role="menuitem" onclick="ir('irrigacao')" ><i class="ti ti-droplet"   aria-hidden="true"></i> Irrigação</a></li>
+        <li><a id="nt-variedades" role="menuitem" onclick="ir('variedades')"><i class="ti ti-folder"   aria-hidden="true"></i> Cadastros</a></li>
+        <li><a id="nt-mercado"   role="menuitem" onclick="tentarMercado()"><i class="ti ti-star"       aria-hidden="true"></i> Mercado <span class="lock-tip" aria-hidden="true">🔒</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- DASHBOARD -->
+    <section class="sec ativa" id="sec-dash" aria-label="Dashboard">
+      <div id="kpi-area"></div>
+      <div id="dash-charts-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-bottom:22px"></div>
+      <div class="cal-wrap">
+        <h3>🗓 Calendário de Colheita — Visão Anual</h3>
+        <div class="cal-inner" id="cal-inner"></div>
+        <div class="cal-leg">
+          <div class="cal-leg-i"><div class="cal-leg-c" style="background:linear-gradient(90deg,var(--m2),var(--m1))"></div>Colheita</div>
+          <div class="cal-leg-i"><div class="cal-leg-c" style="background:var(--g7);opacity:.65"></div>Florada</div>
+          <div class="cal-leg-i"><div class="cal-leg-c" style="background:var(--creme2)"></div>Vegetativo</div>
+        </div>
+      </div>
+      <h2 class="s-titulo">Últimos Lançamentos</h2>
+      <div class="tw"><table><thead><tr><th>Data</th><th>Área</th><th>Categoria</th><th>Descrição</th><th>Valor</th></tr></thead><tbody id="tb-dash"></tbody></table></div>
+    </section>
+
+    <!-- ÁREAS -->
+    <section class="sec" id="sec-areas" aria-label="Áreas de produção">
+      <h2 class="s-titulo">🌳 Minhas Áreas</h2>
+      <div id="area-limit-alert"></div>
+      <div style="margin-bottom:18px">
+        <button class="btn-p" onclick="abrirModalArea()">＋ Nova Área</button>
+      </div>
+      <div class="areas-grid" id="lista-areas"></div>
+    </section>
+
+    <!-- LANÇAMENTOS -->
+    <section class="sec" id="sec-lanc" aria-label="Lançamentos financeiros">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+        <h2 class="s-titulo" style="margin:0">💰 Lançamentos</h2>
+      </div>
+      <div class="fc">
+        <h3>📝 Novo Lançamento</h3>
+        <div class="fg">
+          <div class="g"><label for="l-data">Data</label><input type="date" id="l-data"></div>
+          <div class="g"><label for="l-area">Área</label><select id="l-area"><option value="">Selecione...</option></select></div>
+          <div class="g"><label for="l-tipo">Tipo</label>
+            <select id="l-tipo" onchange="atualizarCats()">
+              <option value="despesa">Despesa Operacional</option>
+              <option value="receita">Receita (Venda)</option>
+              <option value="investimento">Investimento</option>
+            </select>
+          </div>
+          <div class="g"><label for="l-cat">Categoria</label><select id="l-cat"></select></div>
+          <div class="g"><label for="l-val">Valor Total (R$)</label><input type="number" id="l-val" placeholder="0,00" step="0.01" min="0"></div>
+          <div class="g"><label for="l-forn">Fornecedor / Responsável</label><input type="text" id="l-forn" placeholder="Ex: Distribuidora ABC"></div>
+          <div class="g full"><label for="l-desc">Descrição</label><textarea id="l-desc" placeholder="Detalhes do lançamento..."></textarea></div>
+        </div>
+        <button class="btn-p" onclick="salvarLanc()">✓ Registrar Lançamento</button>
+      </div>
+      <h2 class="s-titulo" style="margin-top:24px">Histórico</h2>
+      <div class="filtros">
+        <span class="filtro-label">Filtrar:</span>
+        <select id="f-a-lanc" onchange="renderLanc()"><option value="">Todas as áreas</option></select>
+        <select id="f-t-lanc" onchange="renderLanc()">
+          <option value="">Todos os tipos</option>
+          <option value="despesa">Despesas</option>
+          <option value="receita">Receitas</option>
+          <option value="investimento">Investimentos</option>
+        </select>
+        <input type="month" id="f-mes-lanc" onchange="renderLanc()" title="Filtrar por mês">
+        <button class="btn-sec" onclick="limparFiltrosLanc()">✕ Limpar</button>
+      </div>
+      <div id="resumo-lanc"></div>
+      <div id="historico-lanc"></div>
+    </section>
+
+    <!-- COLHEITA & LUCRO -->
+    <section class="sec" id="sec-colheita" aria-label="Estimativa de colheita e lucro">
+      <h2 class="s-titulo">🌾 Estimativa de Colheita &amp; Lucro</h2>
+      <div class="fc">
+        <h3>📦 Configurar Estimativa por Área</h3>
+        <div class="fg">
+          <div class="g"><label for="ce-area">Área</label><select id="ce-area" onchange="preencherEst()"><option value="">Selecione...</option></select></div>
+          <div class="g"><label for="ce-kg-est">Produção Estimada (kg)</label><input type="number" id="ce-kg-est" placeholder="Ex: 15000" step="100" min="0" oninput="calcEst()"></div>
+          <div class="g"><label for="ce-kg-real">Produção Real (kg)</label><input type="number" id="ce-kg-real" placeholder="Após colheita" step="100" min="0" oninput="calcEst()"></div>
+          <div class="g"><label for="ce-preco">Preço de Venda (R$/kg)</label><input type="number" id="ce-preco" placeholder="Ex: 2,80" step="0.01" min="0" oninput="calcEst()"></div>
+          <div class="g"><label for="ce-desc">% Descarte / Refugo</label><input type="number" id="ce-desc" placeholder="Ex: 5" step="0.5" min="0" max="100" value="5" oninput="calcEst()"></div>
+          <div class="g"><label for="ce-custoC">Custo de Colheita (R$)</label><input type="number" id="ce-custoC" placeholder="Ex: 1500" step="50" min="0" oninput="calcEst()"></div>
+        </div>
+        <div id="prev-est" class="est-box" style="margin-top:16px;display:none">
+          <h3>📊 Prévia</h3>
+          <div class="est-g" id="est-prev-g"></div>
+        </div>
+        <button class="btn-p" onclick="salvarEst()">✓ Salvar Estimativa</button>
+      </div>
+      <h2 class="s-titulo">Resumo por Área</h2>
+      <div id="lista-ests"></div>
+    </section>
+
+    <!-- RELATÓRIO -->
+    <section class="sec" id="sec-relatorio" aria-label="Relatório consolidado">
+      <h2 class="s-titulo">📋 Relatório Consolidado</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+        <div class="filtros" style="margin-bottom:0">
+          <select id="rel-a"   onchange="renderRel()"><option value="">Todas as áreas</option></select>
+          <select id="rel-mes" onchange="renderRel()">
+            <option value="">Todo o período</option>
+            <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+            <option value="3">Março</option><option value="4">Abril</option>
+            <option value="5">Maio</option><option value="6">Junho</option>
+            <option value="7">Julho</option><option value="8">Agosto</option>
+            <option value="9">Setembro</option><option value="10">Outubro</option>
+            <option value="11">Novembro</option><option value="12">Dezembro</option>
+          </select>
+        </div>
+        <button class="btn-sec" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      </div>
+      <div id="conteudo-rel"></div>
+    </section>
+
+    <!-- ESTOQUE -->
+    <section class="sec" id="sec-estoque" aria-label="Controle de estoque">
+      <h2 class="s-titulo">📦 Controle de Estoque</h2>
+      <div class="fc">
+        <h3>➕ Entrada de Material</h3>
+        <div class="fg">
+          <div class="g">
+            <label>Tipo</label>
+            <div class="tipo-toggle-wrap">
+              <button class="tipo-btn ativo" id="ebtn-organico" onclick="selTipoEst('organico')">🌿 Orgânico</button>
+              <button class="tipo-btn"       id="ebtn-quimico"  onclick="selTipoEst('quimico')">🧪 Químico</button>
+              <button class="tipo-btn"       id="ebtn-adubo"    onclick="selTipoEst('adubo')">🌱 Adubo</button>
+            </div>
+            <input type="hidden" id="est-tipo" value="organico">
+          </div>
+          <div class="g"><label for="est-produto">Produto</label><input type="text" id="est-produto" placeholder="Nome do produto"></div>
+          <div class="g"><label for="est-qtd">Quantidade</label><input type="number" id="est-qtd" placeholder="Ex: 500" min="0" step="0.1"></div>
+          <div class="g"><label for="est-unidade">Unidade</label>
+            <select id="est-unidade">
+              <option value="kg">kg</option><option value="L">L (litro)</option>
+              <option value="g">g</option><option value="mL">mL</option>
+              <option value="saco">Saco</option><option value="unidade">Unidade</option>
+            </select>
+          </div>
+          <div class="g"><label for="est-valor">Valor Unitário (R$)</label><input type="number" id="est-valor" placeholder="Ex: 3,50" step="0.01" min="0"></div>
+          <div class="g"><label for="est-min">Estoque Mínimo</label><input type="number" id="est-min" placeholder="Alerta abaixo de..." step="0.1" min="0"></div>
+          <div class="g"><label for="est-validade">Validade</label><input type="date" id="est-validade"></div>
+          <div class="g"><label for="est-local">Localização</label><input type="text" id="est-local" placeholder="Ex: Galpão principal"></div>
+          <div class="g full"><label for="est-obs">Observações</label><textarea id="est-obs" placeholder="Fornecedor, lote, condições..."></textarea></div>
+        </div>
+        <button class="btn-p" onclick="salvarEstoque()">✓ Registrar no Estoque</button>
+      </div>
+      <h2 class="s-titulo" style="margin-top:28px">Materiais em Estoque</h2>
+      <div id="lista-estoque"></div>
+    </section>
+
+    <!-- PRAGAS -->
+    <section class="sec" id="sec-pragas" aria-label="Registro de pragas e doenças">
+      <h2 class="s-titulo">🐛 Registro de Pragas &amp; Doenças</h2>
+      <div id="lista-pragas"></div>
+    </section>
+
+    <!-- IRRIGAÇÃO -->
+    <section class="sec" id="sec-irrigacao" aria-label="Registro de irrigação">
+      <h2 class="s-titulo">💧 Registro de Irrigação</h2>
+      <div id="lista-irrigacao"></div>
+    </section>
+
+    <!-- CADASTROS -->
+    <section class="sec" id="sec-variedades" aria-label="Cadastros de variedades, produtos e mão de obra">
+      <h2 class="s-titulo">🗂 Cadastros</h2>
+      <div class="cad-tabs">
+        <button class="cad-tab ativo" id="ctab-variedades" onclick="mudarCadTab('variedades')">🌿 Variedades</button>
+        <button class="cad-tab"       id="ctab-produtos"   onclick="mudarCadTab('produtos')">🧪 Produtos</button>
+        <button class="cad-tab"       id="ctab-maodeobra"  onclick="mudarCadTab('maodeobra')">👷 Mão de Obra</button>
+      </div>
+      <div id="lista-variedades"></div>
+    </section>
+
+    <!-- MERCADO -->
+    <section class="sec" id="sec-mercado" aria-label="Mercado HF Brasil"></section>
+
+    <!-- ADMIN -->
+    <section class="sec" id="sec-admin" aria-label="Painel administrativo">
+      <h2 class="s-titulo">⚙️ Painel Administrativo</h2>
+      <div id="admin-stats"></div>
+      <h3 class="s-titulo" style="font-size:1.1rem">Usuários Cadastrados</h3>
+      <div id="admin-users"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── JavaScript (ES Modules) ── -->
+<script type="module" src="js/main.js"></script>
+
+<!-- Expõe funções globais necessárias para onclick inline das seções (bridge temporário) -->
+<script type="module">
+  import { salvarArea } from './js/modules/areas.js';
+  import { salvarLanc, renderLanc, atualizarCats } from './js/modules/lancamentos.js';
+  import { salvarEstoque, renderEstoque } from './js/modules/estoque.js';
+  import { calcEst, salvarEst } from './js/modules/colheita.js';
+  import { mudarCadTab } from './js/modules/variedades.js';
+  import { tentarMercado } from './js/modules/mercado.js';
+  import { renderRel } from './js/modules/relatorio.js';
+
+  Object.assign(window, {
+    salvarLanc, renderLanc, atualizarCats,
+    salvarEstoque, renderEstoque,
+    calcEst, salvarEst,
+    mudarCadTab,
+    tentarMercado,
+    renderRel,
+    limparFiltrosLanc: () => {
+      ['f-a-lanc','f-t-lanc','f-mes-lanc'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      renderLanc();
+    },
+    abrirModalArea: () => {
+      document.getElementById('modal-area').classList.add('open');
+      document.getElementById('ma-nome').focus();
+    },
+    fecharModalArea: () => {
+      document.getElementById('modal-area').classList.remove('open');
+      ['ma-nome','ma-ha','ma-variedade','ma-plantio','ma-obs'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('ma-status').value = 'ativa';
+      document.getElementById('ma-colh-ini').value = '';
+      document.getElementById('ma-colh-fim').value = '';
+    },
+    confirmarSalvarArea: async () => {
+      const btn = document.getElementById('btn-salvar-area');
+      btn.disabled = true;
+      const ok = await salvarArea({
+        nome:        document.getElementById('ma-nome').value.trim(),
+        ha:          document.getElementById('ma-ha').value,
+        variedade:   document.getElementById('ma-variedade').value.trim(),
+        plantio:     document.getElementById('ma-plantio').value || null,
+        status:      document.getElementById('ma-status').value,
+        obs:         document.getElementById('ma-obs').value.trim() || null,
+        colheitaIni: document.getElementById('ma-colh-ini').value || null,
+        colheitaFim: document.getElementById('ma-colh-fim').value || null,
+      });
+      btn.disabled = false;
+      if (ok) window.fecharModalArea();
+    },
+    preencherEst:   () => {},
+    selTipoEst: (tipo) => {
+      document.getElementById('est-tipo').value = tipo;
+      document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('ativo'));
+      document.getElementById(`ebtn-${tipo}`)?.classList.add('ativo');
+    },
+  });
+</script>
+
+<!-- MODAL: Nova Área -->
+<div class="modal-ov" id="modal-area" role="dialog" aria-modal="true" aria-labelledby="modal-area-titulo"
+     onclick="if(event.target===this)fecharModalArea()">
+  <div class="modal">
+    <h2 id="modal-area-titulo">🌳 Nova Área</h2>
+
+    <div class="fg">
+      <div class="g">
+        <label for="ma-nome">Nome *</label>
+        <input type="text" id="ma-nome" placeholder="Ex: Talhão A1 — Tommy Atkins" maxlength="100">
+      </div>
+      <div class="g">
+        <label for="ma-ha">Área (ha) *</label>
+        <input type="number" id="ma-ha" placeholder="Ex: 3.5" step="0.0001" min="0.0001">
+      </div>
+      <div class="g">
+        <label for="ma-variedade">Variedade *</label>
+        <input type="text" id="ma-variedade" placeholder="Ex: Tommy Atkins" maxlength="100">
+      </div>
+      <div class="g">
+        <label for="ma-plantio">Data de Plantio</label>
+        <input type="date" id="ma-plantio">
+      </div>
+      <div class="g">
+        <label for="ma-status">Status</label>
+        <select id="ma-status">
+          <option value="ativa">Ativa</option>
+          <option value="inativa">Inativa</option>
+          <option value="colhida">Colhida</option>
+        </select>
+      </div>
+      <div class="g">
+        <label for="ma-colh-ini">Colheita — Mês início</label>
+        <select id="ma-colh-ini">
+          <option value="">—</option>
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option>
+          <option value="9">Setembro</option><option value="10">Outubro</option>
+          <option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+      </div>
+      <div class="g">
+        <label for="ma-colh-fim">Colheita — Mês fim</label>
+        <select id="ma-colh-fim">
+          <option value="">—</option>
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option>
+          <option value="9">Setembro</option><option value="10">Outubro</option>
+          <option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+      </div>
+      <div class="g full">
+        <label for="ma-obs">Observações</label>
+        <textarea id="ma-obs" placeholder="Solo, irrigação, localização..." rows="2" maxlength="2000"></textarea>
+      </div>
+    </div><!-- .fg -->
+
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalArea()">Cancelar</button>
+      <button class="btn-p" id="btn-salvar-area" onclick="confirmarSalvarArea()">✓ Salvar Área</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

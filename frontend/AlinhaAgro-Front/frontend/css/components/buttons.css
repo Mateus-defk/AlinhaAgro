@@ -1,0 +1,239 @@
+/* ══════════════════════════════════════════════
+   COMPONENTE: Botões
+   ══════════════════════════════════════════════ */
+
+/* ── Primário (verde escuro) */
+.btn-p {
+  background: var(--g1);
+  color: #fff;
+  border: none;
+  padding: 11px 26px;
+  border-radius: 9px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--trans);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.btn-p:hover  { background: var(--g3); transform: translateY(-1px); box-shadow: 0 4px 16px var(--sombra); }
+.btn-p:active { transform: translateY(0); }
+
+/* ── Secundário (outline verde) */
+.btn-sec {
+  background: transparent;
+  color: var(--g4);
+  border: 2px solid var(--g4);
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.83rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-sec:hover { background: var(--g4); color: #fff; }
+
+/* ── Destrutivo (outline vermelho) */
+.btn-d {
+  background: transparent;
+  color: var(--r2);
+  border: 1.5px solid var(--r2);
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 0.73rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-d:hover { background: var(--r2); color: #fff; }
+
+/* ── Editar (outline verde claro) */
+.btn-edit {
+  background: transparent;
+  color: var(--g5);
+  border: 1.5px solid var(--g5);
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 0.73rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-edit:hover { background: var(--g5); color: #fff; }
+
+/* ── Cancelar */
+.btn-can {
+  background: transparent;
+  color: var(--texto3);
+  border: 2px solid var(--creme2);
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 0.87rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-can:hover { border-color: var(--creme3); color: var(--texto2); }
+
+/* ── Auth */
+.btn-auth {
+  width: 100%;
+  background: var(--g1);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px var(--sombra);
+  transition: all var(--trans);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-auth:hover   { background: var(--g3); transform: translateY(-1px); box-shadow: 0 8px 24px var(--sombra); }
+.btn-auth:active  { transform: translateY(0); }
+.btn-auth.loading { pointer-events: none; opacity: 0.7; }
+
+/* ── CTA landing */
+.btn-cta {
+  background: linear-gradient(135deg, var(--m2), var(--m1));
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(212, 114, 10, 0.35);
+  transition: all var(--trans);
+}
+.btn-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212, 114, 10, 0.5); }
+
+/* ── Ghost (landing nav) */
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-ghost:hover { border-color: var(--g6); color: #fff; background: rgba(255, 255, 255, 0.06); }
+
+/* ── Hero CTA */
+.btn-hero-p {
+  background: linear-gradient(135deg, var(--m2), var(--m1));
+  color: #fff;
+  border: none;
+  padding: 15px 32px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(212, 114, 10, 0.4);
+  transition: all var(--trans);
+}
+.btn-hero-p:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212, 114, 10, 0.5); }
+
+.btn-hero-s {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans);
+}
+.btn-hero-s:hover { background: rgba(255, 255, 255, 0.13); border-color: rgba(255, 255, 255, 0.3); }
+
+/* ── Upgrade */
+.btn-upgrade {
+  background: linear-gradient(135deg, var(--m2), var(--m1));
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  transition: all var(--trans);
+}
+.btn-upgrade:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(212, 114, 10, 0.4); }
+
+/* ── Sair (header app) */
+.btn-sair {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans);
+  font-family: var(--font-sans);
+}
+.btn-sair:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+/* ── Demo */
+.demo-btn {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  background: transparent;
+  border: 2px dashed var(--creme3);
+  color: var(--texto3);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all var(--trans);
+  text-align: center;
+}
+.demo-btn:hover { border-color: var(--g5); color: var(--g5); background: rgba(61, 122, 68, 0.04); }
+
+/* ── Tipo toggle (estoque) */
+.tipo-toggle-wrap { display: flex; gap: 8px; margin-top: 6px; }
+
+.tipo-btn {
+  flex: 1;
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 2px solid var(--creme2);
+  background: var(--branco);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texto3);
+  transition: all 0.18s ease;
+}
+
+.tipo-btn.ativo[id$="organico"] { background: rgba(61, 122, 68, 0.1); border-color: var(--g5); color: var(--g4); }
+.tipo-btn.ativo[id$="quimico"]  { background: rgba(99, 102, 241, 0.1); border-color: #6366f1; color: #4f46e5; }
+.tipo-btn.ativo[id$="adubo"]    { background: rgba(217, 119, 6, 0.1); border-color: #d97706; color: #b45309; }

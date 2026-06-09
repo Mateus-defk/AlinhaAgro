@@ -1,0 +1,26 @@
+/* ══════════════════════════════════════════════
+   AgroGestão — main.css
+   Entry point: importa todos os módulos CSS
+   na ordem correta de cascata.
+   ══════════════════════════════════════════════ */
+
+/* 1. Base */
+@import './base/variables.css';
+@import './base/reset.css';
+@import './base/typography.css';
+@import './base/animations.css';
+
+/* 2. Componentes reutilizáveis */
+@import './components/buttons.css';
+@import './components/cards.css';
+@import './components/forms.css';
+@import './components/modals.css';
+@import './components/nav.css';
+@import './components/tables.css';
+@import './components/toasts.css';
+@import './components/badges.css';
+
+/* 3. Seções do app */
+@import './sections/landing.css';
+@import './sections/auth.css';
+@import './sections/app.css';

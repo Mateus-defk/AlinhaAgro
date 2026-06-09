@@ -1,0 +1,48 @@
+/* ══════════════════════════════════════════════
+   SEÇÃO: App Principal (shell + main)
+   ══════════════════════════════════════════════ */
+
+#tela-app {
+  background: var(--creme);
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#tela-app.ativa {
+  display: flex;
+}
+
+.app-main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 28px 16px 80px;
+  flex: 1;
+  width: 100%;
+}
+
+/* ── Print / Export */
+@media print {
+  .app-header, .app-nav, .app-user, .btn-sair, .btn-p, .btn-d, .btn-edit,
+  .autosave-bar, .toast, .filtros .btn-p, .upgrade-banner,
+  #nt-mercado, .lock-nav, .btn-upgrade { display: none !important; }
+
+  body { background: white !important; color: black !important; }
+  .sec.ativa { display: block !important; }
+  .fc  { box-shadow: none !important; border: 1px solid #ddd !important; }
+  .tw  { box-shadow: none !important; }
+}
+
+/* ── Responsive app */
+@media (max-width: 700px) {
+  .kpi-grid  { grid-template-columns: repeat(2, 1fr); }
+  .areas-grid { grid-template-columns: 1fr; }
+  .app-header { height: auto; padding: 10px 14px; gap: 10px; }
+  .app-logo h1 { font-size: 1rem; }
+  .fg   { grid-template-columns: 1fr; }
+  .modal { padding: 20px; margin: 10px; }
+  .s-titulo { font-size: 1.2rem; }
+  .est-g { grid-template-columns: repeat(2, 1fr); }
+  .auth-right { padding: 24px 18px; }
+  .cal-row  { grid-template-columns: 100px repeat(12, 1fr); }
+  .cal-nome { font-size: 0.7rem; }
+}

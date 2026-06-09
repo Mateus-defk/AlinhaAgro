@@ -1,0 +1,92 @@
+/* ══════════════════════════════════════════════
+   COMPONENTE: Badges & Pills
+   ══════════════════════════════════════════════ */
+
+/* ── Fruta badge (variedades) */
+.var-fruta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(61, 122, 68, 0.1);
+  border: 1px solid rgba(61, 122, 68, 0.2);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--g4);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ── Produto tipo badge */
+.prod-tipo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.prod-tipo-badge.organico { background: rgba(61, 122, 68, 0.1); border: 1px solid rgba(61, 122, 68, 0.25); color: var(--g4); }
+.prod-tipo-badge.quimico  { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); color: #4f46e5; }
+
+/* ── Hero badge landing */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(82, 163, 90, 0.12);
+  border: 1px solid rgba(82, 163, 90, 0.25);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--g7);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+/* ── Plano badges */
+.plano-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+.badge-mensal     { background: rgba(82, 163, 90, 0.2); color: var(--g7); }
+.badge-trimestral { background: rgba(245, 184, 41, 0.2); color: var(--m3); }
+.badge-anual      { background: rgba(212, 114, 10, 0.2); color: var(--m2); }
+
+/* ── Mini gráfico barras */
+.mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 40px; padding: 0 2px; }
+.mini-bar   { flex: 1; border-radius: 3px 3px 0 0; min-height: 3px; transition: all var(--trans); cursor: default; position: relative; }
+.mini-bar:hover { opacity: 0.8; }
+
+.chart-wrap   { background: var(--branco); border-radius: 14px; padding: 20px; box-shadow: 0 3px 14px var(--sombra2); margin-bottom: 22px; }
+.chart-wrap h3 { font-family: var(--font-serif); font-size: 1rem; color: var(--g1); margin-bottom: 14px; }
+.chart-labels  { display: flex; gap: 3px; margin-top: 4px; }
+.chart-label   { flex: 1; text-align: center; font-size: 0.58rem; color: var(--texto3); font-weight: 700; text-transform: uppercase; }
+
+/* ── Calendário */
+.cal-wrap  { background: var(--branco); border-radius: 14px; padding: 20px; box-shadow: 0 3px 14px var(--sombra2); margin-bottom: 22px; overflow-x: auto; }
+.cal-wrap h3 { font-family: var(--font-serif); font-size: 1rem; color: var(--g1); margin-bottom: 14px; }
+.cal-inner { min-width: 680px; }
+.cal-row   { display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 2px; margin-bottom: 3px; align-items: center; }
+.cal-header .cal-cell { text-align: center; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--texto3); padding: 3px 0; background: transparent; }
+.cal-nome  { font-size: 0.78rem; font-weight: 700; color: var(--g1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; cursor: default; }
+.cal-cell  { height: 22px; border-radius: 4px; background: var(--creme2); transition: transform var(--trans); }
+.cal-cell:hover { transform: scaleY(1.2); }
+.cal-cell.c-col { background: linear-gradient(90deg, var(--m2), var(--m1)); }
+.cal-cell.c-flo { background: var(--g7); opacity: 0.65; }
+.cal-leg   { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.cal-leg-i { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--texto3); }
+.cal-leg-c { width: 14px; height: 8px; border-radius: 3px; }
+
+/* ── Colheita badge */
+.colh-badge { font-size: 0.76rem; font-weight: 700; color: #6b3a2a; display: flex; align-items: center; gap: 5px; }
+
+/* ── Mini inventário */
+.inv-mini { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.inv-mini-row   { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--creme2); font-size: 0.8rem; }
+.inv-mini-total { display: flex; justify-content: space-between; padding: 5px 0; font-weight: 800; font-size: 0.85rem; }
+.est-chip { margin-top: 10px; background: linear-gradient(135deg, var(--g1), var(--g3)); border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 0.78rem; display: flex; justify-content: space-between; align-items: center; }

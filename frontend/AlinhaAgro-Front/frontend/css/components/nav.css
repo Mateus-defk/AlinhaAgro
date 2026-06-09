@@ -1,0 +1,119 @@
+/* ══════════════════════════════════════════════
+   COMPONENTE: Navegação
+   ══════════════════════════════════════════════ */
+
+/* ── Header app */
+.app-header {
+  background: var(--g1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 62px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 3px 24px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.app-logo { display: flex; align-items: center; gap: 10px; }
+.app-logo-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--m2), var(--m1));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(212, 114, 10, 0.4);
+}
+.app-logo h1 { font-family: var(--font-serif); font-size: 1.2rem; color: #fff; }
+.app-logo .plano-tag { background: rgba(82, 163, 90, 0.25); border: 1px solid rgba(82, 163, 90, 0.4); border-radius: 20px; padding: 2px 9px; font-size: 0.62rem; font-weight: 800; color: var(--g7); letter-spacing: 1px; text-transform: uppercase; margin-left: 4px; }
+
+.app-user { display: flex; align-items: center; gap: 10px; }
+.app-user-info { text-align: right; }
+.app-user-name { font-size: 0.82rem; font-weight: 700; color: #fff; }
+.app-user-plan { font-size: 0.65rem; color: rgba(255, 255, 255, 0.45); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ── Nav app */
+.app-nav { background: var(--g1); }
+
+.app-nav-row1 {
+  background: var(--g2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.app-nav-row1::-webkit-scrollbar { display: none; }
+.app-nav-row1 ul { display: flex; list-style: none; max-width: 1300px; margin: 0 auto; padding: 0 16px; white-space: nowrap; justify-content: center; }
+
+.app-nav-row1 ul li a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 11px 14px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  border-bottom: 3px solid transparent;
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.app-nav-row1 ul li a i { font-size: 13px; opacity: 0.7; transition: opacity var(--trans); }
+.app-nav-row1 ul li a:hover,
+.app-nav-row1 ul li a.ativo { color: var(--m4); border-bottom-color: var(--m2); }
+.app-nav-row1 ul li a.ativo i,
+.app-nav-row1 ul li a:hover i { opacity: 1; }
+.app-nav-row1 ul li a.lock-nav { color: rgba(255, 255, 255, 0.25); cursor: not-allowed; }
+
+.app-nav-row2 {
+  background: var(--g3);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.app-nav-row2::-webkit-scrollbar { display: none; }
+.app-nav-row2 ul { display: flex; list-style: none; max-width: 1300px; margin: 0 auto; padding: 0 16px; white-space: nowrap; justify-content: center; }
+
+.app-nav-row2 ul li a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition: all var(--trans);
+  cursor: pointer;
+}
+.app-nav-row2 ul li a i { font-size: 12px; opacity: 0.6; transition: opacity var(--trans); }
+.app-nav-row2 ul li a:hover,
+.app-nav-row2 ul li a.ativo { color: var(--m4); border-bottom-color: var(--m2); }
+.app-nav-row2 ul li a.ativo i,
+.app-nav-row2 ul li a:hover i { opacity: 1; }
+.app-nav-row2 ul li a.lock-nav { color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
+
+.prem-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--m3); display: inline-block; margin-left: 2px; vertical-align: middle; flex-shrink: 0; }
+.lock-tip { font-size: 0.6rem; margin-left: 3px; vertical-align: middle; }
+
+/* ── Abas (tabs) */
+.tabs { display: flex; gap: 2px; background: var(--creme2); border-radius: 10px; padding: 3px; margin-bottom: 18px; width: fit-content; }
+.tab-btn { padding: 7px 16px; border-radius: 8px; background: transparent; border: none; font-family: var(--font-sans); font-size: 0.82rem; font-weight: 700; color: var(--texto3); cursor: pointer; transition: all var(--trans); }
+.tab-btn.ativo { background: var(--branco); color: var(--g1); box-shadow: 0 1px 4px var(--sombra2); }
+
+/* ── Abas de cadastro (Variedades/Produtos/MO) */
+.cad-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.cad-tab  { padding: 10px 20px; border-radius: 10px; border: 2px solid var(--creme2); background: var(--branco); font-family: var(--font-sans); font-size: 0.83rem; font-weight: 700; cursor: pointer; color: var(--texto3); transition: all 0.18s ease; }
+.cad-tab:hover { border-color: var(--g5); color: var(--g4); }
+.cad-tab.ativo { background: var(--g1); border-color: var(--g1); color: #fff; }
+
+/* ── Aba divisor */
+.aba-divisor { display: flex; align-items: center; gap: 14px; margin: 36px 0 24px; }
+.aba-divisor::before, .aba-divisor::after { content: ''; flex: 1; height: 1px; background: var(--creme2); }
+.aba-divisor span { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--texto3); white-space: nowrap; }

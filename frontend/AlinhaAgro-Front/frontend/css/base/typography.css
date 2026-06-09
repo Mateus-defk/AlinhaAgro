@@ -1,0 +1,63 @@
+/* ══════════════════════════════════════════════
+   TIPOGRAFIA — AgroGestão
+   ══════════════════════════════════════════════ */
+
+/* Fontes carregadas via CDN no index.html */
+
+/* ── Títulos de seção */
+.s-titulo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--g1);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.s-titulo::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--m2), transparent);
+  border-radius: 2px;
+}
+
+/* ── Moeda e números */
+.vp {
+  color: #16a34a;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.vn {
+  color: var(--r2);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.vm {
+  font-family: var(--font-mono);
+}
+
+/* ── Tags / badges */
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+/* Categorias de lançamento */
+.t-irr { background: #dbeafe; color: #1e40af; }
+.t-adu { background: #dcfce7; color: #166534; }
+.t-mao { background: #fef9c3; color: #854d0e; }
+.t-pod { background: #ede9fe; color: #6d28d9; }
+.t-def { background: #fee2e2; color: #991b1b; }
+.t-rec { background: #dcfce7; color: #166534; }
+.t-inv { background: #fef3c7; color: #92400e; }
+.t-col { background: #ffedd5; color: #9a3412; }
+.t-out { background: #f3f4f6; color: #374151; }

@@ -1,0 +1,22 @@
+{
+  "name": "agrogestao-frontend",
+  "version": "2.1.0",
+  "description": "AgroGestão — Frontend SPA para gestão rural de fruticultura irrigada",
+  "type": "module",
+  "scripts": {
+    "dev":    "npx serve . -p 3000",
+    "lint":   "npx eslint js/**/*.js --ext .js",
+    "check":  "npx html-validate index.html"
+  },
+  "keywords": ["agronegocio", "fruticultura", "gestao-rural", "spa"],
+  "author": "AgroGestão",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "serve":  "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

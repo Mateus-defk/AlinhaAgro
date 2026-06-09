@@ -1,0 +1,65 @@
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS — AgroGestão
+   Aesthetic: Luxury Agrarian · Dark Premium
+   ══════════════════════════════════════════════ */
+:root {
+  /* ── Paleta Verde (brand primária) */
+  --g1: #0d1f0f;
+  --g2: #142617;
+  --g3: #1e3a21;
+  --g4: #2d5a32;
+  --g5: #3d7a44;
+  --g6: #52a35a;
+  --g7: #7ec784;
+  --g8: #b2e4b8;
+
+  /* ── Paleta Âmbar (brand secundária) */
+  --m1: #d4720a;
+  --m2: #e8930f;
+  --m3: #f5b829;
+  --m4: #fdd97a;
+  --m5: #fff3cd;
+
+  /* ── Neutros Creme */
+  --creme:  #faf6ef;
+  --creme2: #f0e8d8;
+  --creme3: #e0d0b8;
+
+  /* ── Vermelho / Alerta */
+  --r1: #8b1a1a;
+  --r2: #c0392b;
+  --r3: #e74c3c;
+
+  /* ── Textos */
+  --branco: #ffffff;
+  --texto:  #0d1f0f;
+  --texto2: #3d5240;
+  --texto3: #6b8a6e;
+
+  /* ── Sombras */
+  --sombra:  rgba(13, 31, 15, 0.18);
+  --sombra2: rgba(13, 31, 15, 0.08);
+
+  /* ── Tokens de forma */
+  --radius: 14px;
+  --trans:  0.2s ease;
+
+  /* ── Tipografia */
+  --font-sans:  'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Fraunces', serif;
+  --font-mono:  'DM Mono', monospace;
+
+  /* ── Espaçamento */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
+  --space-2xl: 80px;
+
+  /* ── Breakpoints (referência — use em media queries) */
+  /* --bp-sm: 480px  */
+  /* --bp-md: 700px  */
+  /* --bp-lg: 1024px */
+  /* --bp-xl: 1300px */
+}
