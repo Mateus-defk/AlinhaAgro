@@ -403,12 +403,14 @@
           <div class="g">
             <label>Tipo</label>
             <div class="tipo-toggle-wrap">
-              <button class="tipo-btn ativo" id="ebtn-organico" onclick="selTipoEst('organico')">🌿 Orgânico</button>
-              <button class="tipo-btn"       id="ebtn-quimico"  onclick="selTipoEst('quimico')">🧪 Químico</button>
-              <button class="tipo-btn"       id="ebtn-adubo"    onclick="selTipoEst('adubo')">🌱 Adubo</button>
+              <button class="tipo-btn ativo" id="ebtn-semente"     onclick="selTipoEst('semente')">🌾 Semente</button>
+              <button class="tipo-btn"       id="ebtn-fertilizante" onclick="selTipoEst('fertilizante')">🌱 Fertilizante</button>
+              <button class="tipo-btn"       id="ebtn-defensivo"   onclick="selTipoEst('defensivo')">🧪 Defensivo</button>
+              <button class="tipo-btn"       id="ebtn-outro"       onclick="selTipoEst('outro')">📦 Outro</button>
             </div>
-            <input type="hidden" id="est-tipo" value="organico">
+            <input type="hidden" id="est-tipo" value="semente">
           </div>
+          <div class="g"><label for="est-area">Área (opcional)</label><select id="est-area"></select></div>
           <div class="g"><label for="est-produto">Produto</label><input type="text" id="est-produto" placeholder="Nome do produto"></div>
           <div class="g"><label for="est-qtd">Quantidade</label><input type="number" id="est-qtd" placeholder="Ex: 500" min="0" step="0.1"></div>
           <div class="g"><label for="est-unidade">Unidade</label>
@@ -418,11 +420,8 @@
               <option value="saco">Saco</option><option value="unidade">Unidade</option>
             </select>
           </div>
-          <div class="g"><label for="est-valor">Valor Unitário (R$)</label><input type="number" id="est-valor" placeholder="Ex: 3,50" step="0.01" min="0"></div>
-          <div class="g"><label for="est-min">Estoque Mínimo</label><input type="number" id="est-min" placeholder="Alerta abaixo de..." step="0.1" min="0"></div>
+          <div class="g"><label for="est-valor">Custo Unitário (R$)</label><input type="number" id="est-valor" placeholder="Ex: 3,50" step="0.01" min="0"></div>
           <div class="g"><label for="est-validade">Validade</label><input type="date" id="est-validade"></div>
-          <div class="g"><label for="est-local">Localização</label><input type="text" id="est-local" placeholder="Ex: Galpão principal"></div>
-          <div class="g full"><label for="est-obs">Observações</label><textarea id="est-obs" placeholder="Fornecedor, lote, condições..."></textarea></div>
         </div>
         <button class="btn-p" onclick="salvarEstoque()">✓ Registrar no Estoque</button>
       </div>
@@ -433,12 +432,49 @@
     <!-- PRAGAS -->
     <section class="sec" id="sec-pragas" aria-label="Registro de pragas e doenças">
       <h2 class="s-titulo">🐛 Registro de Pragas &amp; Doenças</h2>
+      <div class="fc">
+        <h3>➕ Nova Ocorrência</h3>
+        <div class="fg">
+          <div class="g"><label for="p-area">Área</label><select id="p-area"></select></div>
+          <div class="g"><label for="p-nome">Praga / Doença</label><input type="text" id="p-nome" placeholder="Ex: Antracnose, Mosca-da-fruta"></div>
+          <div class="g"><label for="p-tipo">Tipo</label>
+            <select id="p-tipo">
+              <option value="praga">Praga</option>
+              <option value="doenca">Doença</option>
+              <option value="erva-daninha">Erva daninha</option>
+            </select>
+          </div>
+          <div class="g"><label for="p-severidade">Severidade</label>
+            <select id="p-severidade">
+              <option value="baixo">Baixa</option>
+              <option value="medio" selected>Média</option>
+              <option value="alto">Alta</option>
+              <option value="critico">Crítica</option>
+            </select>
+          </div>
+          <div class="g"><label for="p-data">Data de Identificação</label><input type="date" id="p-data"></div>
+          <div class="g full"><label for="p-obs">Observações</label><textarea id="p-obs" placeholder="Produto aplicado, área afetada, ações tomadas..."></textarea></div>
+        </div>
+        <button class="btn-p" onclick="salvarPraga()">✓ Registrar Ocorrência</button>
+      </div>
       <div id="lista-pragas"></div>
     </section>
 
     <!-- IRRIGAÇÃO -->
     <section class="sec" id="sec-irrigacao" aria-label="Registro de irrigação">
       <h2 class="s-titulo">💧 Registro de Irrigação</h2>
+      <div class="fc">
+        <h3>➕ Novo Registro</h3>
+        <div class="fg">
+          <div class="g"><label for="irr-area">Área</label><select id="irr-area"></select></div>
+          <div class="g"><label for="irr-data">Data</label><input type="date" id="irr-data"></div>
+          <div class="g"><label for="irr-duracao">Duração (min)</label><input type="number" id="irr-duracao" min="1" placeholder="Ex: 120"></div>
+          <div class="g"><label for="irr-lamina">Lâmina (mm)</label><input type="number" id="irr-lamina" min="0" step="0.1" placeholder="Opcional"></div>
+          <div class="g"><label for="irr-custo">Custo (R$)</label><input type="number" id="irr-custo" min="0" step="0.01" placeholder="Opcional"></div>
+          <div class="g full"><label for="irr-obs">Observações</label><textarea id="irr-obs" placeholder="Sistema utilizado, pressão, condições climáticas..."></textarea></div>
+        </div>
+        <button class="btn-p" onclick="salvarIrrigacao()">✓ Registrar Irrigação</button>
+      </div>
       <div id="lista-irrigacao"></div>
     </section>
 
@@ -497,16 +533,19 @@
   import { salvarArea, atualizarArea, editarArea } from './js/modules/areas.js';
   import { salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc } from './js/modules/lancamentos.js';
   import { salvarEstoque, renderEstoque } from './js/modules/estoque.js';
+  import { salvarPraga, renderPragas, salvarIrrigacao, renderIrrigacao } from './js/modules/campo.js';
   import { calcEst, salvarEst } from './js/modules/colheita.js';
-  import { mudarCadTab } from './js/modules/variedades.js';
+  import { mudarCadTab, salvarCadastro, salvarMaoDeObra } from './js/modules/variedades.js';
   import { tentarMercado } from './js/modules/mercado.js';
   import { renderRel } from './js/modules/relatorio.js';
 
   Object.assign(window, {
     salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc,
     salvarEstoque, renderEstoque,
+    salvarPraga, renderPragas,
+    salvarIrrigacao, renderIrrigacao,
     calcEst, salvarEst,
-    mudarCadTab,
+    mudarCadTab, salvarCadastro, salvarMaoDeObra,
     tentarMercado,
     renderRel,
     limparFiltrosLanc: () => {

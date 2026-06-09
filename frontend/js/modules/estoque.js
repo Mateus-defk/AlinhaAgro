@@ -1,76 +1,73 @@
 /**
- * Módulo: Estoque (Premium)
- * Controle de materiais com alertas de estoque mínimo.
+ * Módulo: Estoque
+ * Integrado com /api/estoque — dados persistidos no banco.
  */
 
-import { State }   from '../core/state.js';
-import { Storage } from '../core/storage.js';
-import { router }  from '../core/router.js';
+import { Store }  from '../core/store.js';
+import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
-import { moeda, gerarId } from '../utils/formatters.js';
-import { CONFIG } from '../core/config.js';
+import { moeda, dataFmt } from '../utils/formatters.js';
 
-router.register('estoque', renderEstoque);
+router.register('estoque', _init);
 
-const CHAVE = 'ag_estoque';
+async function _init() {
+  _popularAreaSelect('est-area');
+  try {
+    await Store.carregarEstoque();
+  } catch (e) {
+    toastErr('Erro ao carregar estoque.');
+  }
+  renderEstoque();
+}
 
-export function salvarEstoque() {
-  const user  = State.user;
-  if (!_verificarPremium(user, 'estoque')) return;
-
-  const produto = _val('est-produto')?.trim();
-  const qtd     = parseFloat(_val('est-qtd') || 0);
-  const unidade = _val('est-unidade');
-  const tipo    = _val('est-tipo') || 'organico';
+export async function salvarEstoque() {
+  const produto    = _val('est-produto');
+  const quantidade = parseFloat(_val('est-qtd') || 0);
+  const unidade    = _val('est-unidade');
+  const tipo       = _val('est-tipo') || 'fertilizante';
 
   if (!produto)        { toastErr('Informe o nome do produto.'); return; }
-  if (!(qtd > 0))      { toastErr('Quantidade deve ser maior que zero.'); return; }
+  if (!(quantidade > 0)) { toastErr('Quantidade deve ser maior que zero.'); return; }
 
-  const itens = Storage.get(CHAVE);
-  const plano = CONFIG.PLANOS[user.plano];
+  const payload = {
+    areaId:        _val('est-area') || null,
+    produto,
+    tipo,
+    quantidade,
+    unidade,
+    custoUnitario: parseFloat(_val('est-valor') || 0) || null,
+    validade:      _val('est-validade') || null,
+  };
 
-  if (itens.length >= plano.maxEstoque) {
-    toastErr(`Limite de ${plano.maxEstoque} itens atingido no plano ${user.plano}.`);
-    return;
+  try {
+    await Store.criarEstoque(payload);
+    toastOk(`${produto} adicionado ao estoque.`);
+    _limparForm();
+    renderEstoque();
+  } catch (e) {
+    toastErr(e.message ?? 'Erro ao salvar.');
   }
-
-  itens.push({
-    id: gerarId(), tipo, produto, qtd, unidade,
-    valor:    parseFloat(_val('est-valor') || 0),
-    minimo:   parseFloat(_val('est-min')   || 0),
-    validade: _val('est-validade'),
-    local:    _val('est-local'),
-    obs:      _val('est-obs'),
-    criado:   new Date().toISOString(),
-  });
-
-  Storage.set(CHAVE, itens);
-  toastOk(`${produto} adicionado ao estoque.`);
-  _limparForm();
-  renderEstoque();
 }
 
 export function renderEstoque() {
   const container = document.getElementById('lista-estoque');
   if (!container) return;
 
-  const itens = Storage.get(CHAVE);
+  const itens = Store.estoque;
   if (!itens.length) {
     container.innerHTML = '<div class="empty"><span class="ei">📦</span><p>Estoque vazio. Adicione materiais acima.</p></div>';
     return;
   }
 
-  /* Agrupa por tipo */
   const grupos = {};
-  itens.forEach(item => {
-    (grupos[item.tipo] ??= []).push(item);
-  });
+  itens.forEach(item => { (grupos[item.tipo] ??= []).push(item); });
 
-  container.innerHTML = Object.entries(grupos).map(([tipo, lista]) => {
-    const label = { organico: '🌿 Orgânicos', quimico: '🧪 Químicos', adubo: '🌱 Adubos' }[tipo] ?? tipo;
-    return `<div class="est-accordion">
+  const LABEL = { semente: '🌾 Sementes', fertilizante: '🌱 Fertilizantes', defensivo: '🧪 Defensivos', outro: '📦 Outros' };
+
+  container.innerHTML = Object.entries(grupos).map(([tipo, lista]) => `
+    <div class="est-accordion">
       <div class="est-acc-hdr" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.est-acc-chev').classList.toggle('open')">
-        <div class="est-acc-left">${label}</div>
+        <div class="est-acc-left">${LABEL[tipo] ?? tipo}</div>
         <div class="est-acc-right">
           <span class="est-acc-stat ok">${lista.length} item(s)</span>
           <span class="est-acc-chev">▾</span>
@@ -78,50 +75,68 @@ export function renderEstoque() {
       </div>
       <div class="est-acc-body">
         <table class="est-tbl">
-          <thead><tr><th>Produto</th><th>Qtd</th><th>Unid.</th><th>Valor Unit.</th><th>Mínimo</th><th>Status</th><th></th></tr></thead>
+          <thead><tr><th>Produto</th><th>Área</th><th>Qtd</th><th>Unid.</th><th>Custo Unit.</th><th>Validade</th><th>Status</th><th></th></tr></thead>
           <tbody>
             ${lista.map(item => {
-              const pct  = item.minimo > 0 ? Math.min((item.qtd / item.minimo) * 100, 100) : 100;
-              const cls  = item.qtd === 0 ? 'zerado' : item.minimo > 0 && item.qtd <= item.minimo ? 'baixo' : 'ok';
-              const label = { ok: 'OK', baixo: 'Baixo', zerado: 'Zerado' }[cls];
+              const cls   = item.quantidade === 0 ? 'zerado' : 'ok';
+              const label = cls === 'zerado' ? 'Zerado' : 'OK';
               return `<tr>
                 <td>${item.produto}</td>
-                <td>${item.qtd}</td>
+                <td>${Store.areaNome(item.areaId)}</td>
+                <td>${item.quantidade}</td>
                 <td>${item.unidade}</td>
-                <td>${moeda(item.valor)}</td>
-                <td>${item.minimo || '—'}</td>
+                <td>${item.custoUnitario ? moeda(item.custoUnitario) : '—'}</td>
+                <td>${item.validade ? dataFmt(item.validade) : '—'}</td>
                 <td><span class="est-status ${cls}">${label}</span></td>
-                <td><button class="btn-d" onclick="window._deletarEstoque('${item.id}')">✕</button></td>
+                <td style="display:flex;gap:6px;align-items:center">
+                  <button class="btn-edit" onclick="window._baixarEstoque('${item.id}')">↓ Baixar</button>
+                  <button class="btn-d"    onclick="window._deletarEstoque('${item.id}')">✕</button>
+                </td>
               </tr>`;
             }).join('')}
           </tbody>
         </table>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
-export function deletarEstoque(id) {
-  Storage.set(CHAVE, Storage.get(CHAVE).filter(i => i.id !== id));
-  renderEstoque();
-  toastOk('Item removido.');
-}
-
-function _verificarPremium(user, modulo) {
-  const plano = CONFIG.PLANOS[user?.plano];
-  if (!plano || plano.maxEstoque === 0) {
-    toastErr('Módulo disponível a partir do plano Trimestral.');
-    return false;
-  }
-  return true;
+function _popularAreaSelect(id) {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+  const areas = Store.areas;
+  sel.innerHTML = '<option value="">— Nenhuma área —</option>' +
+    areas.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
 }
 
 function _val(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
+
 function _limparForm() {
-  ['est-produto','est-qtd','est-valor','est-min','est-validade','est-local','est-obs'].forEach(id => {
+  ['est-produto','est-qtd','est-valor','est-validade'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
 }
 
-window._deletarEstoque = deletarEstoque;
+window._deletarEstoque = async (id) => {
+  try {
+    await Store.deletarEstoque(id);
+    renderEstoque();
+    toastOk('Item removido.');
+  } catch (e) {
+    toastErr(e.message ?? 'Erro ao remover.');
+  }
+};
+
+window._baixarEstoque = async (id) => {
+  const qtdStr = prompt('Quantidade a baixar:');
+  if (!qtdStr) return;
+  const quantidade = parseFloat(qtdStr);
+  if (!(quantidade > 0)) { toastErr('Quantidade inválida.'); return; }
+  try {
+    await Store.baixarEstoque(id, quantidade);
+    renderEstoque();
+    toastOk('Baixa registrada.');
+  } catch (e) {
+    toastErr(e.message ?? 'Erro ao baixar.');
+  }
+};
