@@ -185,9 +185,9 @@
 
 /* ── Sair (header app) */
 .btn-sair {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: 1px solid var(--app-card-border);
+  color: var(--app-text-secondary);
   padding: 7px 14px;
   border-radius: 7px;
   font-size: 0.78rem;
@@ -196,7 +196,7 @@
   transition: all var(--trans);
   font-family: var(--font-sans);
 }
-.btn-sair:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.btn-sair:hover { background: var(--r3); border-color: var(--r3); color: #fff; }
 
 /* ── Demo */
 .demo-btn {

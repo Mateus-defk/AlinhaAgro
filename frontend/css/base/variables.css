@@ -63,25 +63,25 @@
   /* --bp-lg: 1024px */
   /* --bp-xl: 1300px */
 
-  /* ── Dark App Theme */
-  --app-bg:             #0d1117;
-  --app-sidebar-bg:     rgba(10, 26, 12, 0.97);
-  --app-header-bg:      rgba(13, 17, 23, 0.95);
-  --app-card-bg:        rgba(255, 255, 255, 0.04);
-  --app-card-border:    rgba(255, 255, 255, 0.08);
-  --app-card-shadow:    0 8px 32px rgba(0, 0, 0, 0.25);
-  --app-card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-  --app-text-primary:   #e2e8f0;
-  --app-text-secondary: rgba(226, 232, 240, 0.55);
-  --app-divider:        rgba(255, 255, 255, 0.06);
+  /* ── Light App Theme */
+  --app-bg:             #f4f6f9;
+  --app-sidebar-bg:     #ffffff;
+  --app-header-bg:      #ffffff;
+  --app-card-bg:        #ffffff;
+  --app-card-border:    #e5e9ef;
+  --app-card-shadow:    0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --app-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.10), 0 12px 32px rgba(0, 0, 0, 0.06);
+  --app-text-primary:   #111827;
+  --app-text-secondary: #6b7280;
+  --app-divider:        #e5e9ef;
 
-  /* ── Glass morphism */
-  --glass-bg:     rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.10);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  --glass-blur:   blur(16px);
+  /* ── Surface (substitui glass no tema claro) */
+  --glass-bg:     rgba(0, 0, 0, 0.03);
+  --glass-border: #e5e9ef;
+  --glass-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --glass-blur:   none;
 
-  /* ── Glow / accent no dark */
-  --glow-green:  rgba(61, 122, 68, 0.25);
-  --glow-amber:  rgba(232, 147, 15, 0.18);
+  /* ── Accent highlights */
+  --glow-green:  rgba(45, 90, 50, 0.10);
+  --glow-amber:  rgba(232, 147, 15, 0.12);
 }
