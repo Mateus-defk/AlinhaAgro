@@ -128,6 +128,9 @@ export const Store = {
     await api.delete(`/pragas/${id}`);
     _data.pragas = _data.pragas.filter(p => p.id !== id);
   },
+  async carregarAcoesPraga(pragaId) {
+    return (await api.get(`/pragas/${pragaId}/acoes`)) ?? [];
+  },
   async criarAcaoPraga(pragaId, payload) {
     return api.post(`/pragas/${pragaId}/acoes`, payload);
   },
