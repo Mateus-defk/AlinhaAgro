@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api;
+package com.alinhaagro.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

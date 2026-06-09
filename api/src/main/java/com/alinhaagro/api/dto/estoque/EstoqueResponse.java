@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.estoque;
+package com.alinhaagro.api.dto.estoque;
 
 import com.alinhaagro.api.domain.Estoque;
 

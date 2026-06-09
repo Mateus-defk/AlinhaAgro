@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.service;
+package com.alinhaagro.api.service;
 
 import com.alinhaagro.api.domain.Area;
 import com.alinhaagro.api.domain.Estoque;

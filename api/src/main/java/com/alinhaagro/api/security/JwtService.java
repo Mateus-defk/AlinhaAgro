@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.security;
+package com.alinhaagro.api.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.praga;
+package com.alinhaagro.api.dto.praga;
 
 import jakarta.validation.constraints.*;
 

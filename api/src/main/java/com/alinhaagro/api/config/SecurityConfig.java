@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.config;
+package com.alinhaagro.api.config;
 
 import com.alinhaagro.api.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.estoque;
+package com.alinhaagro.api.dto.estoque;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

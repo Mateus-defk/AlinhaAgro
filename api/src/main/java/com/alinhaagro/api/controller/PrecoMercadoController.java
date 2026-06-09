@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.controller;
+package com.alinhaagro.api.controller;
 
 import com.alinhaagro.api.dto.precomercado.PrecoMercadoRequest;
 import com.alinhaagro.api.dto.precomercado.PrecoMercadoResponse;

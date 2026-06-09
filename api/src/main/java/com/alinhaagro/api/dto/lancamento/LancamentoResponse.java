@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.lancamento;
+package com.alinhaagro.api.dto.lancamento;
 
 import com.alinhaagro.api.domain.Lancamento;
 

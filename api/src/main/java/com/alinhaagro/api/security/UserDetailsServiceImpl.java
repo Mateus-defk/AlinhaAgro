@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.security;
+package com.alinhaagro.api.security;
 
 import com.alinhaagro.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

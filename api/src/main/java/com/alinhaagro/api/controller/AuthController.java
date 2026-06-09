@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.controller;
+package com.alinhaagro.api.controller;
 
 import com.alinhaagro.api.dto.auth.AuthResponse;
 import com.alinhaagro.api.dto.auth.LoginRequest;

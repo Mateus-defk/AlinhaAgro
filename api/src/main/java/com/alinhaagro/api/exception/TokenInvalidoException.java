@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.exception;
+package com.alinhaagro.api.exception;
 
 public class TokenInvalidoException extends RuntimeException {
     public TokenInvalidoException() {

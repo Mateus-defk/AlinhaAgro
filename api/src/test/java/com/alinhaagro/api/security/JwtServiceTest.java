@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.security;
+package com.alinhaagro.api.security;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

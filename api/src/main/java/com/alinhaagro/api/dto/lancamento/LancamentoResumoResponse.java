@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.lancamento;
+package com.alinhaagro.api.dto.lancamento;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

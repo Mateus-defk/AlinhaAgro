@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.service;
+package com.alinhaagro.api.service;
 
 import com.alinhaagro.api.exception.PlanLimitExceededException;
 import com.alinhaagro.api.repository.AreaRepository;

@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.domain;
+package com.alinhaagro.api.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

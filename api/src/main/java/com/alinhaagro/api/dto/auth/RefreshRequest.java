@@ -1,4 +1,5 @@
-﻿package com.alinhaagro.api.dto.auth;
+
+package com.alinhaagro.api.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.repository;
+package com.alinhaagro.api.repository;
 
 import com.alinhaagro.api.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

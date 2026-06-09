@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.user;
+package com.alinhaagro.api.dto.user;
 
 import com.alinhaagro.api.domain.User;
 

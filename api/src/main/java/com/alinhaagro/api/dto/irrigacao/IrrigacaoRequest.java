@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.irrigacao;
+package com.alinhaagro.api.dto.irrigacao;
 
 import jakarta.validation.constraints.*;
 

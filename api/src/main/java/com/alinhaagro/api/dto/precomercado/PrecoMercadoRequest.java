@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.precomercado;
+package com.alinhaagro.api.dto.precomercado;
 
 import jakarta.validation.constraints.*;
 

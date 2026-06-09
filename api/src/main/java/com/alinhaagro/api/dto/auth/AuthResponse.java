@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.auth;
+package com.alinhaagro.api.dto.auth;
 
 public record AuthResponse(
         String accessToken,

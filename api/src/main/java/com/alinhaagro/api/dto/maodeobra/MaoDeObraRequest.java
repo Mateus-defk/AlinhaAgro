@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.maodeobra;
+package com.alinhaagro.api.dto.maodeobra;
 
 import jakarta.validation.constraints.*;
 

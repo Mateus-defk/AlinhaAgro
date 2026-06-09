@@ -1,4 +1,4 @@
-﻿package com.alinhaagro.api.dto.area;
+package com.alinhaagro.api.dto.area;
 
 import com.alinhaagro.api.domain.Area;
 
