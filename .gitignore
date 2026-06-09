@@ -1,0 +1,80 @@
+# ===== BUILD =====
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# ===== IDE =====
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# ===== CLAUDE CODE =====
+.claude/
+
+# ===== SEGREDOS / SENSIVEIS =====
+.env
+.env.*
+*.env
+!*.env.example
+
+# Configs de ambiente com credenciais
+application-prod.yml
+application-prod.yaml
+application-local.yml
+application-local.yaml
+application-secrets.yml
+application-secrets.yaml
+**/application-*.yml
+!**/application.yml
+!**/application-test.yml
+
+# Chaves e certificados
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.crt
+*.cer
+secrets/
+credentials/
+
+# ===== BANCO DE DADOS =====
+*.sql.bak
+dump/
+db-dump/
+pgdata/
+
+# ===== DOCKER =====
+docker-override.yml
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ===== LOGS =====
+logs/
+*.log
+*.log.*
+log/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ===== TEMPORÁRIOS =====
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
