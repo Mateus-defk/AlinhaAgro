@@ -1,55 +1,76 @@
 # AlinhaAgro — Visão do Produto
 
-## Problema
+## Missão
 
-Produtores rurais — especialmente fruticultores com irrigação — gerenciam sua propriedade com planilhas Excel, cadernos físicos ou nenhum sistema. O resultado é:
+Democratizar a gestão financeira e operacional para produtores rurais do agronegócio brasileiro, com foco inicial em fruticultura irrigada do Vale do São Francisco. Oferecer uma ferramenta simples, acessível e offline-first que substitua cadernos e planilhas no campo.
 
-- Sem visibilidade de custo por hectare ou por ciclo de produção
-- Controle de estoque de insumos feito "de cabeça"
-- Sem histórico de pragas e doenças por talhão
-- Impossibilidade de calcular rentabilidade real por cultura
-- Dados espalhados que não geram nenhum insight
+---
 
-## Solução
+## Problema que resolve
 
-**AlinhaAgro** é um SaaS web para gestão rural que centraliza em um só lugar:
+Produtores rurais de pequeno e médio porte (5–50 ha), principalmente de manga, não têm controle financeiro estruturado nem ferramentas especializadas de gestão. As consequências são:
 
-- Lançamentos financeiros (receitas e despesas por área)
-- Controle de estoque de insumos
-- Monitoramento de pragas e doenças
-- Registro de irrigação
-- Controle de mão de obra
-- Consulta de preços de mercado
+- Desconhecimento do custo real por hectare
+- Dificuldade em precificar a produção com margem segura
+- Perda de rastreabilidade de insumos e mão de obra
+- Decisões de compra e venda sem base histórica
+- Ausência de dados para acesso a crédito rural
 
-Acessível de qualquer dispositivo (computador ou celular), sem instalação.
+O AlinhaAgro resolve isso com uma interface pensada para uso no celular, mesmo em áreas rurais com conectividade limitada.
+
+---
+
+## Visão de longo prazo
+
+> "Ser o sistema de gestão de referência para produtores rurais familiares e de médio porte do Nordeste brasileiro, expandindo para todas as culturas irrigadas do país."
+
+**Horizonte 1 — 2025/2026:** Fruticultura de manga no Vale do São Francisco. Produto validado com produtores de Petrolina e Juazeiro. Migração da base local para back-end em nuvem.
+
+**Horizonte 2 — 2026/2027:** Expansão para uva, goiaba, acerola e outras frutíferas irrigadas. Módulo de crédito rural e relatórios para bancos.
+
+**Horizonte 3 — 2027+:** Plataforma multi-cultura, multi-região. Integração com CONAB, HF Brasil, Cepea e sistemas de rastreabilidade (SISBOV, Rastreagro).
+
+---
 
 ## Público-alvo
 
-- **Primário**: Pequenos e médios produtores de fruticultura irrigada (manga, uva, goiaba, melão, etc.) no Nordeste e Centro-Oeste
-- **Secundário**: Técnicos agrícolas e consultores que gerenciam múltiplos clientes
+| Perfil | Descrição |
+|---|---|
+| **Produtor primário** | 5–50 ha, fruticultura irrigada (manga em foco), acesso via celular |
+| **Técnico agrícola** | Assessoria a múltiplos produtores, visão consolidada |
+| **Cooperativa** | Gestão de associados, relatórios coletivos |
+| **Financiador** | Bancos e fundos que exigem rastreabilidade de investimento |
+
+---
 
 ## Proposta de valor
 
-| Sem AlinhaAgro | Com AlinhaAgro |
-|---|---|
-| Planilhas desconexas | Dashboard centralizado |
-| Custo por área desconhecido | Relatório financeiro por talhão |
-| Pragas anotadas em papel | Histórico digital por área |
-| Estoque "no olho" | Alertas de validade e baixa estoque |
-| Sem visão de rentabilidade | DRE simplificado por safra |
+- **Offline-first:** funciona 100% no navegador sem internet (localStorage)
+- **Sem instalação:** arquivo HTML único — abre em qualquer celular ou computador
+- **Foco no produtor:** linguagem simples, sem jargão contábil
+- **Integrado:** um sistema que conecta campo, financeiro e mercado
+- **Onboarding assistido:** atendimento manual via WhatsApp, sem cadastro self-service
 
-## Modelo de negócio
+---
 
-| Plano | Áreas | Preço |
+## Planos e monetização
+
+| Plano | Preço | Foco |
 |---|---|---|
-| Mensal | até 3 | R$ XX/mês |
-| Trimestral | até 8 | R$ XX/trimestre |
-| Anual | ilimitado | R$ XX/ano |
+| Mensal | R$ 210,00/mês | Entrada, produtor pequeno (até 3 áreas / 50 lançamentos por mês) |
+| Trimestral | R$ 567,00/trim. | Produtor médio, maior controle (até 8 áreas / 200 lançamentos por mês) |
+| Anual Premium | R$ 2.016,00/ano | Produtor profissional, todas as funcionalidades (ilimitado) |
 
-## Roadmap de longo prazo
+**Trial:** 7 dias gratuitos com acesso completo ao plano Anual.
 
-- **v1.0** — Fundação: auth, áreas, lançamentos, estoque, pragas, irrigação, mão de obra
-- **v1.5** — Dashboard com gráficos e DRE por safra
-- **v2.0** — Relatórios exportáveis (PDF/Excel)
-- **v2.5** — App mobile (PWA)
-- **v3.0** — Integração com notas fiscais e bancos
+**Reembolso:** apenas o mínimo legal — CDC Art. 49 (7 dias, 100%). Sem política de reembolso parcial voluntário.
+
+---
+
+## Princípios de design
+
+1. **Simplicidade primeiro** — cada tela resolve uma tarefa
+2. **Dados reais** — nada de exemplos vazios; onboarding com dados da fazenda
+3. **Feedback imediato** — toast, autosave, progresso visual
+4. **Mobile first** — tudo funciona em tela de 375px
+5. **Confiança** — o produtor sabe que seus dados são dele (localStorage, exportável)
