@@ -44,29 +44,45 @@ document.addEventListener('DOMContentLoaded', async () => {
 function _bindAuthHandlers() {
   /* Login */
   document.getElementById('btn-login')?.addEventListener('click', async () => {
+    const btn   = document.getElementById('btn-login');
     const email = document.getElementById('login-email')?.value?.trim() ?? '';
     const senha = document.getElementById('login-senha')?.value ?? '';
-    const result = await fazerLogin(email, senha);
-    if (!result.ok) {
-      _mostrarMsgAuth('login-msg', result.msg, 'erro');
-    } else {
-      _atualizarHeaderUsuario();
-      router.ir('dash');
+    btn.disabled = true;
+    btn.classList.add('loading');
+    try {
+      const result = await fazerLogin(email, senha);
+      if (!result.ok) {
+        _mostrarMsgAuth('login-msg', result.msg, 'erro');
+      } else {
+        _atualizarHeaderUsuario();
+        router.ir('dash');
+      }
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
     }
   });
 
   /* Cadastro */
   document.getElementById('btn-cad')?.addEventListener('click', async () => {
+    const btn   = document.getElementById('btn-cad');
     const nome  = document.getElementById('cad-nome')?.value?.trim()  ?? '';
     const email = document.getElementById('cad-email')?.value?.trim() ?? '';
     const senha = document.getElementById('cad-senha')?.value         ?? '';
     const plano = document.getElementById('cad-plano')?.value         ?? 'mensal';
-    const result = await fazerCadastro({ nome, email, senha, plano });
-    if (!result.ok) {
-      _mostrarMsgAuth('cad-msg', result.msg, 'erro');
-    } else {
-      _atualizarHeaderUsuario();
-      router.ir('dash');
+    btn.disabled = true;
+    btn.classList.add('loading');
+    try {
+      const result = await fazerCadastro({ nome, email, senha, plano });
+      if (!result.ok) {
+        _mostrarMsgAuth('cad-msg', result.msg, 'erro');
+      } else {
+        _atualizarHeaderUsuario();
+        router.ir('dash');
+      }
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
     }
   });
 
