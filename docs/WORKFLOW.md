@@ -3,19 +3,22 @@
 ## Estrutura de branches
 
 ```
-main              ← produção (deploy automático no Railway + Vercel)
-  └── dev         ← integração (base para features)
-        └── feature/nome-da-feature
-        └── fix/nome-do-bug
-        └── chore/nome-da-tarefa
-  └── hotfix/nome ← correção urgente em produção (branch a partir de main)
+main                    ← produção (deploy automático no Railway + Vercel)
+  └── feature/nome-da-feature
+  └── fix/nome-do-bug
+  └── docs/nome-da-doc
+  └── chore/nome-da-tarefa
 ```
+
+Time pequeno (3 devs), sem branch `dev` intermediária — esse é o modelo
+**GitHub Flow**: toda branch nasce direto da `main` e volta pra `main` via
+PR. Mais simples que Git Flow e adequado pro deploy contínuo já existente.
 
 ## Fluxo de trabalho
 
 ```
-1. Criar branch a partir de dev
-   git checkout dev && git pull
+1. Criar branch a partir da main
+   git checkout master && git pull
    git checkout -b feature/area-controller
 
 2. Desenvolver com commits atômicos
@@ -25,19 +28,19 @@ main              ← produção (deploy automático no Railway + Vercel)
 3. Rodar testes antes do push
    cd api && .\mvnw test
 
-4. Abrir PR: feature → dev
+4. Abrir PR: feature → main
    - Título: "feat(area): CRUD de áreas com validação de plano"
    - Descrever o que mudou e como testar
 
-5. Merge para dev após revisão
-6. Merge dev → main para deploy
+5. Revisão por outro dev (ou pelo responsável pelo merge) antes de aprovar
+6. Merge na main → deploy automático
 ```
 
 ## Fluxo de hotfix (bug crítico em produção)
 
 ```
-1. Criar branch a partir de main (não de dev)
-   git checkout main && git pull
+1. Criar branch a partir de main
+   git checkout master && git pull
    git checkout -b hotfix/corrigir-login-invalido
 
 2. Corrigir o bug com o menor diff possível
@@ -47,11 +50,10 @@ main              ← produção (deploy automático no Railway + Vercel)
 
 4. PR: hotfix → main  (revisar antes de mergear)
 5. Merge para main → deploy automático em produção
-6. Backport para dev (evitar regressão futura)
-   git checkout dev && git merge main
 ```
 
-> Hotfix nunca passa por dev antes — o objetivo é tempo mínimo até produção.
+> Sem branch `dev`, hotfix e feature seguem o mesmo fluxo — a diferença
+> entre eles é só a urgência e o tamanho do diff, não o caminho até a main.
 
 ---
 
