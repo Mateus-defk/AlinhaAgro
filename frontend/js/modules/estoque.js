@@ -118,6 +118,9 @@ function _limparForm() {
 }
 
 window._deletarEstoque = async (id) => {
+  const item = Store.estoque.find(e => e.id === id);
+  if (!confirm(`Excluir "${item?.produto ?? 'este item'}" do estoque? Essa ação não pode ser desfeita.`)) return;
+
   try {
     await Store.deletarEstoque(id);
     renderEstoque();

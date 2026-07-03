@@ -109,6 +109,10 @@ export function editarLanc(id) {
 
 /* ── Deletar */
 export async function deletarLanc(id) {
+  const l = Store.lancamentos.find(x => x.id === id);
+  const desc = l?.descricao || l?.categoria || 'este lançamento';
+  if (!confirm(`Excluir "${desc}"? Essa ação não pode ser desfeita.`)) return;
+
   try {
     await Store.deletarLancamento(id);
     await renderLanc();
