@@ -11,6 +11,30 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 - Rate limiting com Bucket4j nos endpoints de auth
 - Testes de integração com Testcontainers
 - Dashboard endpoint (resumo geral por safra)
+- Paginação real nos endpoints de listagem (issue aberta)
+- Refresh de token não dispara em respostas 403, só 401 (issue aberta)
+
+---
+
+## [0.3.0] — 2026-07-03
+
+### Adicionado
+- Modal de confirmação próprio para exclusão (substitui o `confirm()` nativo do navegador) em todos os módulos: áreas, lançamentos, estoque, pragas, ações de controle, irrigação, estimativas, variedades/produtos e mão de obra
+- Tela de boot durante a restauração de sessão, evitando o flash da landing page para usuários já autenticados
+- Roteamento real por hash (`#/areas`, `#/lancamentos`...) — suporta back/forward do navegador e link direto para uma seção
+- Padrão de criação/edição em modal unificado em Lançamentos, Estoque, Pragas e Irrigação (antes usavam formulário sempre visível, diferente do padrão já usado em Áreas)
+
+### Corrigido
+- Senha mínima do cadastro alinhada com o backend (8 caracteres — o frontend aceitava 6)
+- Botões de login/cadastro desabilitam durante a requisição, evitando duplo submit
+- Bug em `mercado.js` que chamava `router.go('mercado')` em vez de `router.ir('mercado')`, fazendo a tela do app inteira sumir para usuários do plano Anual/Premium ao abrir "Mercado"
+- `prompt()` nativo do navegador (baixar quantidade de estoque) substituído por modal
+
+### Removido
+- `js/core/storage.js` e `CONFIG.STORAGE_KEYS` — código morto; a migração de `localStorage` para a API já estava completa e nada mais importava esse módulo
+
+### Documentação
+- `README.md`, `docs/API.md`, `docs/ARCHITECTURE.md` e `docs/WORKFLOW.md` atualizados para refletir o estado real do código (preços dos planos, ausência de paginação na API, fluxo de branches sem `dev`, estrutura atual do frontend)
 
 ---
 

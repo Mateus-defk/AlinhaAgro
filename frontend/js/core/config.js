@@ -14,13 +14,6 @@ export const CONFIG = {
   /* Ambiente atual */
   ENV: window.__ENV__?.APP_ENV ?? 'development',
 
-  /* Chaves de localStorage */
-  STORAGE_KEYS: {
-    USERS:    'ag_users',
-    SESSION:  'ag_session',
-    PRECOS:   'ag_precos_medios',
-  },
-
   /* Planos e limites */
   PLANOS: {
     mensal:     { maxAreas: 3,    maxLancs: 50,   maxEstoque: 0,    maxCadastros: 0,    premium: false },
