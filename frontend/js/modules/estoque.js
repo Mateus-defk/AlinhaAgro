@@ -27,8 +27,8 @@ export async function salvarEstoque() {
   const unidade    = _val('est-unidade');
   const tipo       = _val('est-tipo') || 'fertilizante';
 
-  if (!produto)        { toastErr('Informe o nome do produto.'); return; }
-  if (!(quantidade > 0)) { toastErr('Quantidade deve ser maior que zero.'); return; }
+  if (!produto)        { toastErr('Informe o nome do produto.'); return false; }
+  if (!(quantidade > 0)) { toastErr('Quantidade deve ser maior que zero.'); return false; }
 
   const payload = {
     areaId:        _val('est-area') || null,
@@ -45,8 +45,10 @@ export async function salvarEstoque() {
     toastOk(`${produto} adicionado ao estoque.`);
     _limparForm();
     renderEstoque();
+    return true;
   } catch (e) {
     toastErr(e.message ?? 'Erro ao salvar.');
+    return false;
   }
 }
 
@@ -131,16 +133,23 @@ window._deletarEstoque = async (id) => {
   }
 };
 
-window._baixarEstoque = async (id) => {
-  const qtdStr = prompt('Quantidade a baixar:');
-  if (!qtdStr) return;
-  const quantidade = parseFloat(qtdStr);
-  if (!(quantidade > 0)) { toastErr('Quantidade inválida.'); return; }
+window._baixarEstoque = (id) => {
+  document.getElementById('baixar-est-id').value = id;
+  document.getElementById('baixar-est-qtd').value = '';
+  document.getElementById('modal-baixar-estoque').classList.add('open');
+  document.getElementById('baixar-est-qtd').focus();
+};
+
+export async function confirmarBaixa(quantidade) {
+  const id = document.getElementById('baixar-est-id').value;
+  if (!(quantidade > 0)) { toastErr('Quantidade inválida.'); return false; }
   try {
     await Store.baixarEstoque(id, quantidade);
     renderEstoque();
     toastOk('Baixa registrada.');
+    return true;
   } catch (e) {
     toastErr(e.message ?? 'Erro ao baixar.');
+    return false;
   }
-};
+}

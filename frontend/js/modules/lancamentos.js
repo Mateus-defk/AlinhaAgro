@@ -34,7 +34,7 @@ export async function salvarLanc() {
     Validators.required(cat,   'Categoria'),
     Validators.positivo(valor, 'Valor'),
   );
-  if (!v.ok) { toastErr(v.msg); return; }
+  if (!v.ok) { toastErr(v.msg); return false; }
 
   const payload = {
     areaId:    _val('l-area') || null,
@@ -54,10 +54,11 @@ export async function salvarLanc() {
       await Store.criarLancamento(payload);
       toastOk('Lançamento registrado!');
     }
-    _limparForm();
     await renderLanc();
+    return true;
   } catch (err) {
     toastErr(_msgErro(err));
+    return false;
   }
 }
 
@@ -102,10 +103,15 @@ export function editarLanc(id) {
   atualizarCats();
   _set('l-cat', l.categoria);
 
-  const fc = document.querySelector('#sec-lanc .fc h3');
-  if (fc) fc.textContent = '✏️ Editar Lançamento';
+  const titulo = document.getElementById('modal-lanc-titulo');
+  if (titulo) titulo.textContent = '✏️ Editar Lançamento';
 
-  document.getElementById('l-data')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('modal-lanc').classList.add('open');
+}
+
+/* ── Reseta o modo de edição (usado ao abrir/fechar o modal) */
+export function resetEdicaoLanc() {
+  _editandoId = null;
 }
 
 /* ── Deletar */
@@ -209,13 +215,6 @@ function _popularAreas(elId) {
     sel.innerHTML = `<option value="">Todas as áreas</option>
       ${areas.map(a => `<option value="${a.nome}" ${a.nome === curr ? 'selected' : ''}>${a.nome}</option>`).join('')}`;
   }
-}
-
-function _limparForm() {
-  _editandoId = null;
-  ['l-data','l-area','l-val','l-desc','l-forn'].forEach(id => _set(id, ''));
-  const fc = document.querySelector('#sec-lanc .fc h3');
-  if (fc) fc.textContent = '📝 Novo Lançamento';
 }
 
 function _msgErro(err) {

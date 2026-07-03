@@ -332,27 +332,9 @@
     <section class="sec" id="sec-lanc" aria-label="Lançamentos financeiros">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px">
         <h2 class="s-titulo" style="margin:0">💰 Lançamentos</h2>
+        <button class="btn-p" onclick="abrirModalLanc()">＋ Novo Lançamento</button>
       </div>
-      <div class="fc">
-        <h3>📝 Novo Lançamento</h3>
-        <div class="fg">
-          <div class="g"><label for="l-data">Data</label><input type="date" id="l-data"></div>
-          <div class="g"><label for="l-area">Área</label><select id="l-area"><option value="">Selecione...</option></select></div>
-          <div class="g"><label for="l-tipo">Tipo</label>
-            <select id="l-tipo" onchange="atualizarCats()">
-              <option value="despesa">Despesa Operacional</option>
-              <option value="receita">Receita (Venda)</option>
-              <option value="investimento">Investimento</option>
-            </select>
-          </div>
-          <div class="g"><label for="l-cat">Categoria</label><select id="l-cat"></select></div>
-          <div class="g"><label for="l-val">Valor Total (R$)</label><input type="number" id="l-val" placeholder="0,00" step="0.01" min="0"></div>
-          <div class="g"><label for="l-forn">Fornecedor / Responsável</label><input type="text" id="l-forn" placeholder="Ex: Distribuidora ABC"></div>
-          <div class="g full"><label for="l-desc">Descrição</label><textarea id="l-desc" placeholder="Detalhes do lançamento..."></textarea></div>
-        </div>
-        <button class="btn-p" onclick="salvarLanc()">✓ Registrar Lançamento</button>
-      </div>
-      <h2 class="s-titulo" style="margin-top:24px">Histórico</h2>
+      <h2 class="s-titulo">Histórico</h2>
       <div class="filtros">
         <span class="filtro-label">Filtrar:</span>
         <select id="f-a-lanc" onchange="renderLanc()"><option value="">Todas as áreas</option></select>
@@ -416,65 +398,17 @@
     <!-- ESTOQUE -->
     <section class="sec" id="sec-estoque" aria-label="Controle de estoque">
       <h2 class="s-titulo">📦 Controle de Estoque</h2>
-      <div class="fc">
-        <h3>➕ Entrada de Material</h3>
-        <div class="fg">
-          <div class="g">
-            <label>Tipo</label>
-            <div class="tipo-toggle-wrap">
-              <button class="tipo-btn ativo" id="ebtn-semente"     onclick="selTipoEst('semente')">🌾 Semente</button>
-              <button class="tipo-btn"       id="ebtn-fertilizante" onclick="selTipoEst('fertilizante')">🌱 Fertilizante</button>
-              <button class="tipo-btn"       id="ebtn-defensivo"   onclick="selTipoEst('defensivo')">🧪 Defensivo</button>
-              <button class="tipo-btn"       id="ebtn-outro"       onclick="selTipoEst('outro')">📦 Outro</button>
-            </div>
-            <input type="hidden" id="est-tipo" value="semente">
-          </div>
-          <div class="g"><label for="est-area">Área (opcional)</label><select id="est-area"></select></div>
-          <div class="g"><label for="est-produto">Produto</label><input type="text" id="est-produto" placeholder="Nome do produto"></div>
-          <div class="g"><label for="est-qtd">Quantidade</label><input type="number" id="est-qtd" placeholder="Ex: 500" min="0" step="0.1"></div>
-          <div class="g"><label for="est-unidade">Unidade</label>
-            <select id="est-unidade">
-              <option value="kg">kg</option><option value="L">L (litro)</option>
-              <option value="g">g</option><option value="mL">mL</option>
-              <option value="saco">Saco</option><option value="unidade">Unidade</option>
-            </select>
-          </div>
-          <div class="g"><label for="est-valor">Custo Unitário (R$)</label><input type="number" id="est-valor" placeholder="Ex: 3,50" step="0.01" min="0"></div>
-          <div class="g"><label for="est-validade">Validade</label><input type="date" id="est-validade"></div>
-        </div>
-        <button class="btn-p" onclick="salvarEstoque()">✓ Registrar no Estoque</button>
+      <div style="margin-bottom:18px">
+        <button class="btn-p" onclick="abrirModalEstoque()">＋ Entrada de Material</button>
       </div>
-      <h2 class="s-titulo" style="margin-top:28px">Materiais em Estoque</h2>
       <div id="lista-estoque"></div>
     </section>
 
     <!-- PRAGAS -->
     <section class="sec" id="sec-pragas" aria-label="Registro de pragas e doenças">
       <h2 class="s-titulo">🐛 Registro de Pragas &amp; Doenças</h2>
-      <div class="fc">
-        <h3>➕ Nova Ocorrência</h3>
-        <div class="fg">
-          <div class="g"><label for="p-area">Área</label><select id="p-area"></select></div>
-          <div class="g"><label for="p-nome">Praga / Doença</label><input type="text" id="p-nome" placeholder="Ex: Antracnose, Mosca-da-fruta"></div>
-          <div class="g"><label for="p-tipo">Tipo</label>
-            <select id="p-tipo">
-              <option value="praga">Praga</option>
-              <option value="doenca">Doença</option>
-              <option value="erva-daninha">Erva daninha</option>
-            </select>
-          </div>
-          <div class="g"><label for="p-severidade">Severidade</label>
-            <select id="p-severidade">
-              <option value="baixo">Baixa</option>
-              <option value="medio" selected>Média</option>
-              <option value="alto">Alta</option>
-              <option value="critico">Crítica</option>
-            </select>
-          </div>
-          <div class="g"><label for="p-data">Data de Identificação</label><input type="date" id="p-data"></div>
-          <div class="g full"><label for="p-obs">Observações</label><textarea id="p-obs" placeholder="Produto aplicado, área afetada, ações tomadas..."></textarea></div>
-        </div>
-        <button class="btn-p" onclick="salvarPraga()">✓ Registrar Ocorrência</button>
+      <div style="margin-bottom:18px">
+        <button class="btn-p" onclick="abrirModalPraga()">＋ Nova Ocorrência</button>
       </div>
       <div id="lista-pragas"></div>
     </section>
@@ -482,17 +416,8 @@
     <!-- IRRIGAÇÃO -->
     <section class="sec" id="sec-irrigacao" aria-label="Registro de irrigação">
       <h2 class="s-titulo">💧 Registro de Irrigação</h2>
-      <div class="fc">
-        <h3>➕ Novo Registro</h3>
-        <div class="fg">
-          <div class="g"><label for="irr-area">Área</label><select id="irr-area"></select></div>
-          <div class="g"><label for="irr-data">Data</label><input type="date" id="irr-data"></div>
-          <div class="g"><label for="irr-duracao">Duração (min)</label><input type="number" id="irr-duracao" min="1" placeholder="Ex: 120"></div>
-          <div class="g"><label for="irr-lamina">Lâmina (mm)</label><input type="number" id="irr-lamina" min="0" step="0.1" placeholder="Opcional"></div>
-          <div class="g"><label for="irr-custo">Custo (R$)</label><input type="number" id="irr-custo" min="0" step="0.01" placeholder="Opcional"></div>
-          <div class="g full"><label for="irr-obs">Observações</label><textarea id="irr-obs" placeholder="Sistema utilizado, pressão, condições climáticas..."></textarea></div>
-        </div>
-        <button class="btn-p" onclick="salvarIrrigacao()">✓ Registrar Irrigação</button>
+      <div style="margin-bottom:18px">
+        <button class="btn-p" onclick="abrirModalIrrigacao()">＋ Novo Registro</button>
       </div>
       <div id="lista-irrigacao"></div>
     </section>
@@ -550,8 +475,8 @@
 <!-- Expõe funções globais necessárias para onclick inline das seções (bridge temporário) -->
 <script type="module">
   import { salvarArea, atualizarArea, editarArea } from './js/modules/areas.js';
-  import { salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc } from './js/modules/lancamentos.js';
-  import { salvarEstoque, renderEstoque } from './js/modules/estoque.js';
+  import { salvarLanc, renderLanc, atualizarCats, editarLanc, deletarLanc, resetEdicaoLanc } from './js/modules/lancamentos.js';
+  import { salvarEstoque, renderEstoque, confirmarBaixa } from './js/modules/estoque.js';
   import { salvarPraga, renderPragas, salvarIrrigacao, renderIrrigacao } from './js/modules/campo.js';
   import { calcEst, salvarEst } from './js/modules/colheita.js';
   import { mudarCadTab, salvarCadastro, salvarMaoDeObra } from './js/modules/variedades.js';
@@ -613,6 +538,101 @@
       document.getElementById('est-tipo').value = tipo;
       document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('ativo'));
       document.getElementById(`ebtn-${tipo}`)?.classList.add('ativo');
+    },
+    abrirModalIrrigacao: () => {
+      document.getElementById('modal-irrigacao').classList.add('open');
+      document.getElementById('irr-data').focus();
+    },
+    fecharModalIrrigacao: () => {
+      document.getElementById('modal-irrigacao').classList.remove('open');
+      ['irr-area','irr-data','irr-duracao','irr-lamina','irr-custo','irr-obs'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    },
+    confirmarSalvarIrrigacao: async () => {
+      const btn = document.getElementById('btn-salvar-irrigacao');
+      btn.disabled = true;
+      const ok = await salvarIrrigacao();
+      btn.disabled = false;
+      if (ok) window.fecharModalIrrigacao();
+    },
+    abrirModalEstoque: () => {
+      document.getElementById('modal-estoque').classList.add('open');
+      document.getElementById('est-produto').focus();
+    },
+    fecharModalEstoque: () => {
+      document.getElementById('modal-estoque').classList.remove('open');
+      ['est-area','est-produto','est-qtd','est-valor','est-validade'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('est-unidade').value = 'kg';
+      window.selTipoEst('semente');
+    },
+    confirmarSalvarEstoque: async () => {
+      const btn = document.getElementById('btn-salvar-estoque');
+      btn.disabled = true;
+      const ok = await salvarEstoque();
+      btn.disabled = false;
+      if (ok) window.fecharModalEstoque();
+    },
+    fecharModalBaixarEstoque: () => {
+      document.getElementById('modal-baixar-estoque').classList.remove('open');
+    },
+    confirmarBaixarEstoque: async () => {
+      const btn = document.getElementById('btn-confirmar-baixa');
+      const qtd = parseFloat(document.getElementById('baixar-est-qtd').value || 0);
+      btn.disabled = true;
+      const ok = await confirmarBaixa(qtd);
+      btn.disabled = false;
+      if (ok) window.fecharModalBaixarEstoque();
+    },
+    abrirModalPraga: () => {
+      document.getElementById('modal-praga').classList.add('open');
+      document.getElementById('p-nome').focus();
+    },
+    fecharModalPraga: () => {
+      document.getElementById('modal-praga').classList.remove('open');
+      ['p-area','p-nome','p-data','p-obs'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('p-tipo').value = 'praga';
+      document.getElementById('p-severidade').value = 'medio';
+    },
+    confirmarSalvarPraga: async () => {
+      const btn = document.getElementById('btn-salvar-praga');
+      btn.disabled = true;
+      const ok = await salvarPraga();
+      btn.disabled = false;
+      if (ok) window.fecharModalPraga();
+    },
+    abrirModalLanc: () => {
+      resetEdicaoLanc();
+      const titulo = document.getElementById('modal-lanc-titulo');
+      if (titulo) titulo.textContent = '📝 Novo Lançamento';
+      document.getElementById('l-tipo').value = 'despesa';
+      atualizarCats();
+      document.getElementById('modal-lanc').classList.add('open');
+      document.getElementById('l-data').focus();
+    },
+    fecharModalLanc: () => {
+      document.getElementById('modal-lanc').classList.remove('open');
+      resetEdicaoLanc();
+      ['l-data','l-area','l-val','l-desc','l-forn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('l-tipo').value = 'despesa';
+      atualizarCats();
+    },
+    confirmarSalvarLanc: async () => {
+      const btn = document.getElementById('btn-salvar-lanc');
+      btn.disabled = true;
+      const ok = await salvarLanc();
+      btn.disabled = false;
+      if (ok) window.fecharModalLanc();
     },
   });
 </script>
@@ -694,6 +714,141 @@
     <div class="modal-foot">
       <button class="btn-sec" id="confirm-btn-cancelar">Cancelar</button>
       <button class="btn-d"   id="confirm-btn-ok" style="padding:11px 22px">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Novo Registro de Irrigação -->
+<div class="modal-ov" id="modal-irrigacao" role="dialog" aria-modal="true" aria-labelledby="modal-irrigacao-titulo"
+     onclick="if(event.target===this)fecharModalIrrigacao()">
+  <div class="modal">
+    <h2 id="modal-irrigacao-titulo">💧 Novo Registro de Irrigação</h2>
+    <div class="fg">
+      <div class="g"><label for="irr-area">Área</label><select id="irr-area"></select></div>
+      <div class="g"><label for="irr-data">Data</label><input type="date" id="irr-data"></div>
+      <div class="g"><label for="irr-duracao">Duração (min)</label><input type="number" id="irr-duracao" min="1" placeholder="Ex: 120"></div>
+      <div class="g"><label for="irr-lamina">Lâmina (mm)</label><input type="number" id="irr-lamina" min="0" step="0.1" placeholder="Opcional"></div>
+      <div class="g"><label for="irr-custo">Custo (R$)</label><input type="number" id="irr-custo" min="0" step="0.01" placeholder="Opcional"></div>
+      <div class="g full"><label for="irr-obs">Observações</label><textarea id="irr-obs" placeholder="Sistema utilizado, pressão, condições climáticas..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalIrrigacao()">Cancelar</button>
+      <button class="btn-p" id="btn-salvar-irrigacao" onclick="confirmarSalvarIrrigacao()">✓ Registrar Irrigação</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Entrada de Material (Estoque) -->
+<div class="modal-ov" id="modal-estoque" role="dialog" aria-modal="true" aria-labelledby="modal-estoque-titulo"
+     onclick="if(event.target===this)fecharModalEstoque()">
+  <div class="modal">
+    <h2 id="modal-estoque-titulo">📦 Entrada de Material</h2>
+    <div class="fg">
+      <div class="g">
+        <label>Tipo</label>
+        <div class="tipo-toggle-wrap">
+          <button class="tipo-btn ativo" id="ebtn-semente"     onclick="selTipoEst('semente')">🌾 Semente</button>
+          <button class="tipo-btn"       id="ebtn-fertilizante" onclick="selTipoEst('fertilizante')">🌱 Fertilizante</button>
+          <button class="tipo-btn"       id="ebtn-defensivo"   onclick="selTipoEst('defensivo')">🧪 Defensivo</button>
+          <button class="tipo-btn"       id="ebtn-outro"       onclick="selTipoEst('outro')">📦 Outro</button>
+        </div>
+        <input type="hidden" id="est-tipo" value="semente">
+      </div>
+      <div class="g"><label for="est-area">Área (opcional)</label><select id="est-area"></select></div>
+      <div class="g"><label for="est-produto">Produto</label><input type="text" id="est-produto" placeholder="Nome do produto"></div>
+      <div class="g"><label for="est-qtd">Quantidade</label><input type="number" id="est-qtd" placeholder="Ex: 500" min="0" step="0.1"></div>
+      <div class="g"><label for="est-unidade">Unidade</label>
+        <select id="est-unidade">
+          <option value="kg">kg</option><option value="L">L (litro)</option>
+          <option value="g">g</option><option value="mL">mL</option>
+          <option value="saco">Saco</option><option value="unidade">Unidade</option>
+        </select>
+      </div>
+      <div class="g"><label for="est-valor">Custo Unitário (R$)</label><input type="number" id="est-valor" placeholder="Ex: 3,50" step="0.01" min="0"></div>
+      <div class="g"><label for="est-validade">Validade</label><input type="date" id="est-validade"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalEstoque()">Cancelar</button>
+      <button class="btn-p" id="btn-salvar-estoque" onclick="confirmarSalvarEstoque()">✓ Registrar no Estoque</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Baixar Estoque -->
+<div class="modal-ov" id="modal-baixar-estoque" role="dialog" aria-modal="true" aria-labelledby="modal-baixar-titulo"
+     onclick="if(event.target===this)fecharModalBaixarEstoque()">
+  <div class="modal" style="max-width:420px">
+    <h2 id="modal-baixar-titulo">↓ Baixar Estoque</h2>
+    <input type="hidden" id="baixar-est-id">
+    <div class="fg">
+      <div class="g full">
+        <label for="baixar-est-qtd">Quantidade a baixar</label>
+        <input type="number" id="baixar-est-qtd" min="0.01" step="0.01" placeholder="Ex: 10">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalBaixarEstoque()">Cancelar</button>
+      <button class="btn-p" id="btn-confirmar-baixa" onclick="confirmarBaixarEstoque()">✓ Confirmar Baixa</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Nova Ocorrência de Praga/Doença -->
+<div class="modal-ov" id="modal-praga" role="dialog" aria-modal="true" aria-labelledby="modal-praga-titulo"
+     onclick="if(event.target===this)fecharModalPraga()">
+  <div class="modal">
+    <h2 id="modal-praga-titulo">🐛 Nova Ocorrência</h2>
+    <div class="fg">
+      <div class="g"><label for="p-area">Área</label><select id="p-area"></select></div>
+      <div class="g"><label for="p-nome">Praga / Doença</label><input type="text" id="p-nome" placeholder="Ex: Antracnose, Mosca-da-fruta"></div>
+      <div class="g"><label for="p-tipo">Tipo</label>
+        <select id="p-tipo">
+          <option value="praga">Praga</option>
+          <option value="doenca">Doença</option>
+          <option value="erva-daninha">Erva daninha</option>
+        </select>
+      </div>
+      <div class="g"><label for="p-severidade">Severidade</label>
+        <select id="p-severidade">
+          <option value="baixo">Baixa</option>
+          <option value="medio" selected>Média</option>
+          <option value="alto">Alta</option>
+          <option value="critico">Crítica</option>
+        </select>
+      </div>
+      <div class="g"><label for="p-data">Data de Identificação</label><input type="date" id="p-data"></div>
+      <div class="g full"><label for="p-obs">Observações</label><textarea id="p-obs" placeholder="Produto aplicado, área afetada, ações tomadas..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalPraga()">Cancelar</button>
+      <button class="btn-p" id="btn-salvar-praga" onclick="confirmarSalvarPraga()">✓ Registrar Ocorrência</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Novo / Editar Lançamento -->
+<div class="modal-ov" id="modal-lanc" role="dialog" aria-modal="true" aria-labelledby="modal-lanc-titulo"
+     onclick="if(event.target===this)fecharModalLanc()">
+  <div class="modal">
+    <h2 id="modal-lanc-titulo">📝 Novo Lançamento</h2>
+    <div class="fg">
+      <div class="g"><label for="l-data">Data</label><input type="date" id="l-data"></div>
+      <div class="g"><label for="l-area">Área</label><select id="l-area"><option value="">Selecione...</option></select></div>
+      <div class="g"><label for="l-tipo">Tipo</label>
+        <select id="l-tipo" onchange="atualizarCats()">
+          <option value="despesa">Despesa Operacional</option>
+          <option value="receita">Receita (Venda)</option>
+          <option value="investimento">Investimento</option>
+        </select>
+      </div>
+      <div class="g"><label for="l-cat">Categoria</label><select id="l-cat"></select></div>
+      <div class="g"><label for="l-val">Valor Total (R$)</label><input type="number" id="l-val" placeholder="0,00" step="0.01" min="0"></div>
+      <div class="g"><label for="l-forn">Fornecedor / Responsável</label><input type="text" id="l-forn" placeholder="Ex: Distribuidora ABC"></div>
+      <div class="g full"><label for="l-desc">Descrição</label><textarea id="l-desc" placeholder="Detalhes do lançamento..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sec" onclick="fecharModalLanc()">Cancelar</button>
+      <button class="btn-p" id="btn-salvar-lanc" onclick="confirmarSalvarLanc()">✓ Registrar Lançamento</button>
     </div>
   </div>
 </div>
