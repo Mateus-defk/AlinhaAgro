@@ -18,7 +18,7 @@ export function tentarMercado() {
     toastErr('Preços HF Brasil disponíveis no plano Anual Premium.');
     return;
   }
-  router.go('mercado');
+  router.ir('mercado');
 }
 
 export async function renderMercado() {

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (sessaoAtiva) {
     _atualizarHeaderUsuario();
     router.go('app');
-    router.ir('dash');
+    router.ir(router.secaoDaUrl());
   } else {
     router.go('landing');
   }

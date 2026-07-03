@@ -54,6 +54,7 @@ export function sair() {
   Token.clear();
   State.clear();
   Store.clear();
+  history.pushState(null, '', location.pathname + location.search);
   router.go('landing');
 }
 
