@@ -37,8 +37,8 @@ export async function salvarPraga() {
   const dataIdentificacao = _val('p-data');
   const observacoes       = _val('p-obs');
 
-  if (!nome)              { toastErr('Informe o nome da praga / doença.'); return; }
-  if (!dataIdentificacao) { toastErr('Informe a data de identificação.'); return; }
+  if (!nome)              { toastErr('Informe o nome da praga / doença.'); return false; }
+  if (!dataIdentificacao) { toastErr('Informe a data de identificação.'); return false; }
 
   try {
     await Store.criarPraga({
@@ -52,8 +52,10 @@ export async function salvarPraga() {
     toastOk('Ocorrência registrada!');
     _limpar(['p-nome', 'p-obs', 'p-data']);
     renderPragas();
+    return true;
   } catch (e) {
     toastErr(e.message ?? 'Erro ao salvar.');
+    return false;
   }
 }
 
@@ -129,8 +131,8 @@ export async function salvarIrrigacao() {
   const custo      = parseFloat(_val('irr-custo')  || 0) || null;
   const observacoes = _val('irr-obs');
 
-  if (!data)          { toastErr('Informe a data.'); return; }
-  if (!(duracaoMin > 0)) { toastErr('Duração deve ser maior que zero.'); return; }
+  if (!data)          { toastErr('Informe a data.'); return false; }
+  if (!(duracaoMin > 0)) { toastErr('Duração deve ser maior que zero.'); return false; }
 
   try {
     await Store.criarIrrigacao({
@@ -144,8 +146,10 @@ export async function salvarIrrigacao() {
     toastOk('Irrigação registrada!');
     _limpar(['irr-data', 'irr-duracao', 'irr-lamina', 'irr-custo', 'irr-obs']);
     renderIrrigacao();
+    return true;
   } catch (e) {
     toastErr(e.message ?? 'Erro ao salvar.');
+    return false;
   }
 }
 
