@@ -8,6 +8,7 @@ import { Store }  from '../core/store.js';
 import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
 import { dataFmt, moeda } from '../utils/formatters.js';
+import { confirmar } from '../utils/confirmDialog.js';
 
 router.register('variedades', _init);
 
@@ -246,7 +247,7 @@ function _int(id) { const v = parseInt(_val(id)); return isNaN(v) ? null : v; }
 window._deletarVar = async (id, tipo) => {
   const lista = tipo === 'variedades' ? Store.variedades : Store.produtos;
   const nome  = lista.find(x => x.id === id)?.nome ?? 'este item';
-  if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir "${nome}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     if (tipo === 'variedades') await Store.deletarVariedade(id);
@@ -258,7 +259,7 @@ window._deletarVar = async (id, tipo) => {
 
 window._deletarMaoDeObra = async (id) => {
   const m = Store.maoDeObra.find(x => x.id === id);
-  if (!confirm(`Excluir o registro "${m?.descricao ?? 'de mão de obra'}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir o registro "${m?.descricao ?? 'de mão de obra'}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     await Store.deletarMaoDeObra(id);
