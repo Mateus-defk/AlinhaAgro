@@ -10,6 +10,7 @@ import { ApiError } from '../core/api.js';
 import { toastOk, toastErr } from '../utils/toast.js';
 import { moeda }    from '../utils/formatters.js';
 import { CONFIG }   from '../core/config.js';
+import { confirmar } from '../utils/confirmDialog.js';
 
 router.register('areas', renderAreas);
 
@@ -129,7 +130,7 @@ export function editarArea(id) {
 
 export async function deletarArea(id) {
   const nome = Store.areaById(id)?.nome ?? 'esta área';
-  if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir "${nome}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     await Store.deletarArea(id);

@@ -9,6 +9,7 @@ import { ApiError } from '../core/api.js';
 import { toastOk, toastErr } from '../utils/toast.js';
 import { moeda, dataFmt }    from '../utils/formatters.js';
 import { Validators }        from '../utils/validators.js';
+import { confirmar }         from '../utils/confirmDialog.js';
 
 router.register('lanc', renderLanc);
 
@@ -111,7 +112,7 @@ export function editarLanc(id) {
 export async function deletarLanc(id) {
   const l = Store.lancamentos.find(x => x.id === id);
   const desc = l?.descricao || l?.categoria || 'este lançamento';
-  if (!confirm(`Excluir "${desc}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir "${desc}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     await Store.deletarLancamento(id);

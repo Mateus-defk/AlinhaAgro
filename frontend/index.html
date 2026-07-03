@@ -36,9 +36,19 @@
 <div class="autosave-bar" id="autosave-bar"><span class="as-dot"></span> Salvando...</div>
 
 <!-- ════════════════════════════════════
+     BOOT (loading inicial — evita mostrar a landing antes de checar a sessão)
+════════════════════════════════════ -->
+<div id="tela-boot" class="tela ativa" role="status" aria-label="Carregando">
+  <div class="boot-center">
+    <div class="boot-logo" aria-hidden="true">🌾</div>
+    <div class="spinner" style="width:22px;height:22px;border-width:3px"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
      LANDING PAGE
 ════════════════════════════════════ -->
-<div id="tela-landing" class="tela ativa">
+<div id="tela-landing" class="tela">
   <div class="landing-bg" aria-hidden="true"></div>
   <div class="landing-wrap">
 
@@ -672,6 +682,18 @@
     <div class="modal-foot">
       <button class="btn-sec" onclick="fecharModalArea()">Cancelar</button>
       <button class="btn-p" id="btn-salvar-area" onclick="confirmarSalvarArea()">✓ Salvar Área</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Confirmação de exclusão (genérico) -->
+<div class="modal-ov" id="modal-confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-titulo" aria-describedby="confirm-msg">
+  <div class="modal" style="max-width:420px">
+    <h2 id="confirm-titulo">Confirmar exclusão</h2>
+    <p id="confirm-msg" style="color:var(--texto2);font-size:.9rem;line-height:1.5"></p>
+    <div class="modal-foot">
+      <button class="btn-sec" id="confirm-btn-cancelar">Cancelar</button>
+      <button class="btn-d"   id="confirm-btn-ok" style="padding:11px 22px">Excluir</button>
     </div>
   </div>
 </div>

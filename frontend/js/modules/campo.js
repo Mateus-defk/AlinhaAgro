@@ -7,6 +7,7 @@ import { Store }  from '../core/store.js';
 import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
 import { dataFmt, moeda } from '../utils/formatters.js';
+import { confirmar } from '../utils/confirmDialog.js';
 
 /* cache de ações carregadas por pragaId */
 const _acoes = {};
@@ -199,7 +200,7 @@ function _tipoBadge(t) {
 
 window._deletarPraga = async (id) => {
   const p = Store.pragas.find(x => x.id === id);
-  if (!confirm(`Excluir a ocorrência "${p?.nome ?? ''}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir a ocorrência "${p?.nome ?? ''}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     await Store.deletarPraga(id);
@@ -252,7 +253,7 @@ window._salvarAcao = async (pragaId) => {
 };
 
 window._deletarAcao = async (pragaId, acaoId) => {
-  if (!confirm('Excluir esta ação de controle? Essa ação não pode ser desfeita.')) return;
+  if (!(await confirmar('Excluir esta ação de controle? Essa ação não pode ser desfeita.'))) return;
 
   try {
     await Store.deletarAcaoPraga(pragaId, acaoId);
@@ -292,7 +293,7 @@ function _renderAcoes(pragaId) {
 }
 
 window._deletarIrrigacao = async (id) => {
-  if (!confirm('Excluir este registro de irrigação? Essa ação não pode ser desfeita.')) return;
+  if (!(await confirmar('Excluir este registro de irrigação? Essa ação não pode ser desfeita.'))) return;
 
   try {
     await Store.deletarIrrigacao(id);

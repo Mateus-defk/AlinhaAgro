@@ -3,7 +3,7 @@
  * Controla qual tela (#tela-*) e qual seção (#sec-*) está visível.
  */
 
-const TELAS = ['landing', 'auth', 'app', 'admin'];
+const TELAS = ['boot', 'landing', 'auth', 'app', 'admin'];
 
 /* Mapa: id de seção → função de render (preenchida pelos módulos) */
 const renderMap = {};

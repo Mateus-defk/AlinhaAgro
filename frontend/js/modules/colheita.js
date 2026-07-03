@@ -7,6 +7,7 @@ import { Store }  from '../core/store.js';
 import { router } from '../core/router.js';
 import { toastOk, toastErr } from '../utils/toast.js';
 import { moeda, num, pct } from '../utils/formatters.js';
+import { confirmar } from '../utils/confirmDialog.js';
 
 router.register('colheita', _initColheita);
 
@@ -127,7 +128,7 @@ function _val(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
 window._deletarEstimativa = async (id) => {
   const e = Store.estimativas.find(x => x.id === id);
   const areaNome = e?.areaNome ?? Store.areaNome(e?.areaId);
-  if (!confirm(`Excluir a estimativa de "${areaNome}"? Essa ação não pode ser desfeita.`)) return;
+  if (!(await confirmar(`Excluir a estimativa de "${areaNome}"? Essa ação não pode ser desfeita.`))) return;
 
   try {
     await Store.deletarEstimativa(id);
