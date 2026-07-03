@@ -128,6 +128,9 @@ export function editarArea(id) {
 }
 
 export async function deletarArea(id) {
+  const nome = Store.areaById(id)?.nome ?? 'esta área';
+  if (!confirm(`Excluir "${nome}"? Essa ação não pode ser desfeita.`)) return;
+
   try {
     await Store.deletarArea(id);
     toastOk('Área removida.');

@@ -125,6 +125,10 @@ function _popularAreas() {
 function _val(id) { return document.getElementById(id)?.value?.trim() ?? ''; }
 
 window._deletarEstimativa = async (id) => {
+  const e = Store.estimativas.find(x => x.id === id);
+  const areaNome = e?.areaNome ?? Store.areaNome(e?.areaId);
+  if (!confirm(`Excluir a estimativa de "${areaNome}"? Essa ação não pode ser desfeita.`)) return;
+
   try {
     await Store.deletarEstimativa(id);
     _renderLista();

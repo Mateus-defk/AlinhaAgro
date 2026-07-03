@@ -29,8 +29,8 @@ export async function fazerCadastro({ nome, email, senha, plano }) {
   if (!nome || !email || !senha || !plano) {
     return { ok: false, msg: 'Preencha todos os campos.' };
   }
-  if (senha.length < 6) {
-    return { ok: false, msg: 'Senha deve ter pelo menos 6 caracteres.' };
+  if (senha.length < 8) {
+    return { ok: false, msg: 'Senha deve ter pelo menos 8 caracteres.' };
   }
 
   try {

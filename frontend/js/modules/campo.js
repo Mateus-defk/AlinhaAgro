@@ -198,6 +198,9 @@ function _tipoBadge(t) {
 }
 
 window._deletarPraga = async (id) => {
+  const p = Store.pragas.find(x => x.id === id);
+  if (!confirm(`Excluir a ocorrência "${p?.nome ?? ''}"? Essa ação não pode ser desfeita.`)) return;
+
   try {
     await Store.deletarPraga(id);
     delete _acoes[id];
@@ -249,6 +252,8 @@ window._salvarAcao = async (pragaId) => {
 };
 
 window._deletarAcao = async (pragaId, acaoId) => {
+  if (!confirm('Excluir esta ação de controle? Essa ação não pode ser desfeita.')) return;
+
   try {
     await Store.deletarAcaoPraga(pragaId, acaoId);
     _acoes[pragaId] = (_acoes[pragaId] ?? []).filter(a => a.id !== acaoId);
@@ -287,6 +292,8 @@ function _renderAcoes(pragaId) {
 }
 
 window._deletarIrrigacao = async (id) => {
+  if (!confirm('Excluir este registro de irrigação? Essa ação não pode ser desfeita.')) return;
+
   try {
     await Store.deletarIrrigacao(id);
     renderIrrigacao();
