@@ -45,9 +45,9 @@ cd api
 
 | Plano | Áreas | Preço |
 |---|---|---|
-| Mensal | até 3 | R$ XX/mês |
-| Trimestral | até 8 | R$ XX/trimestre |
-| Anual | ilimitado | R$ XX/ano |
+| Mensal | até 3 | R$ 210,00/mês |
+| Trimestral | até 8 | R$ 567,00/trimestre |
+| Anual | ilimitado | R$ 2.016,00/ano |
 
 ---
 

@@ -24,7 +24,9 @@ export async function fazerLogin(email, senha) {
   }
 }
 
-/* ── Cadastro */
+/* ── Cadastro — sem link ativo na UI desde a mudança para onboarding via
+   WhatsApp (ver docs/VISION.md). Mantido funcional caso o self-service
+   seja reativado. */
 export async function fazerCadastro({ nome, email, senha, plano }) {
   if (!nome || !email || !senha || !plano) {
     return { ok: false, msg: 'Preencha todos os campos.' };

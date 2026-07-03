@@ -24,25 +24,16 @@ Ultrapassar o limite retorna `402 Payment Required`.
 
 ## Paginação
 
-Endpoints de listagem aceitam os query params abaixo (Spring Data `Pageable`):
+**Ainda não implementada.** Todos os endpoints de listagem (`/api/areas`, `/api/lancamentos`,
+`/api/estoque`, `/api/irrigacao`, `/api/pragas`, `/api/mao-de-obra`, `/api/variedades`,
+`/api/produtos`, `/api/estimativas`, `/api/precos-mercado`) retornam um array simples
+(`List<T>`), sem `page`/`size`/`sort` e sem envelope `{content, page}`. Toda a lista é
+carregada de uma vez.
 
-| Param | Padrão | Descrição |
-|---|---|---|
-| `page` | `0` | Página (base 0) |
-| `size` | `20` | Itens por página (máx. 100) |
-| `sort` | `criadoEm,desc` | Campo e direção (`asc`/`desc`) |
-
-**Exemplo:** `GET /api/lancamentos?tipo=despesa&page=0&size=10&sort=data,desc`
-
-**Resposta paginada:**
-```json
-{
-  "content": [...],
-  "page": { "number": 0, "size": 10, "totalElements": 45, "totalPages": 5 }
-}
-```
-
-Endpoints que **não** paginam (retornam array direto): `/api/areas`, `/api/precos-mercado`.
+Isso é aceitável com poucos registros, mas vira gargalo de performance conforme o
+histórico do produtor cresce (safras acumuladas). Paginação real (Spring Data `Pageable`)
+está no roadmap antes de escalar a base de usuários — quando implementada, esta seção
+será atualizada com o contrato definitivo.
 
 ---
 
