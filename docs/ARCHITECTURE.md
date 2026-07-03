@@ -86,7 +86,7 @@ frontend/
     │   ├── auth.js          ← login, logout, tryRefresh, isAuthenticated
     │   ├── router.js        ← roteamento SPA por hash (#/dashboard, #/areas...)
     │   ├── state.js         ← estado global em memória (usuário, plano)
-    │   └── storage.js       ← abstração localStorage → será trocado por api.js na v1.0
+    │   └── store.js         ← cache em memória + CRUD via api.js (áreas, lançamentos, estoque, pragas, irrigação, mão de obra, variedades, produtos, estimativas)
     ├── modules/             ← um arquivo por tela/feature
     │   ├── dashboard.js     ← KPIs, gráficos mensais, calendário de colheita
     │   ├── areas.js         ← CRUD de talhões
@@ -102,7 +102,8 @@ frontend/
         ├── formatters.js    ← moeda, datas, números
         ├── validators.js    ← validação de formulários
         ├── toast.js         ← notificações de sucesso/erro
-        └── charts.js        ← wrappers dos gráficos
+        ├── charts.js        ← wrappers dos gráficos
+        └── confirmDialog.js ← modal de confirmação (substitui o confirm() nativo)
 ```
 
 ### Fluxo de renderização (SPA sem framework)
@@ -120,20 +121,13 @@ módulo.init() — chama api.js → backend
 DOM manipulado diretamente — sem virtual DOM
 ```
 
-### Migração localStorage → API (em andamento)
+### Persistência de dados
 
-O frontend atualmente persiste dados em `localStorage` (offline-first).
-A migração para o backend ocorre em `js/core/storage.js`:
-
-```javascript
-// Antes (localStorage)
-Storage.get('areas') → JSON.parse(localStorage.getItem('areas'))
-
-// Depois (API REST)
-Storage.get('areas') → apiFetch('/api/areas')
-```
-
-Cada módulo usa `Storage.*` — a troca é transparente para os módulos.
+A migração de `localStorage` para a API REST já foi concluída. Todo módulo lê e
+escreve dados através do `Store` (`js/core/store.js`), que mantém um cache em
+memória e delega toda operação ao `api.js` (ex: `Store.criarArea()` →
+`api.post('/areas', ...)`). O único uso de `localStorage` que resta é o de
+tokens JWT (`Token` em `js/core/api.js`), que é stateless por natureza.
 
 ---
 
